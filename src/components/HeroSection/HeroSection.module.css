@@ -1,0 +1,144 @@
+.hero {
+  position: relative;
+  height: 100vh;
+  min-height: 700px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.image {
+  transform: scale(1.05);
+  animation: subtleZoom 25s infinite alternate linear;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(26, 54, 54, 0.5) 0%,
+    rgba(26, 54, 54, 0.2) 50%,
+    rgba(26, 54, 54, 0.7) 100%
+  );
+  z-index: 2;
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  padding-bottom: 8rem;
+  width: 100%;
+}
+
+.textContent {
+  animation: fadeUp 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 6px;
+  margin-bottom: 2rem;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.title {
+  font-family: var(--font-heading);
+  font-size: clamp(3.5rem, 8vw, 8rem);
+  font-weight: 300;
+  margin-bottom: 1.5rem;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.ampersand {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 0.9em;
+  color: var(--color-secondary);
+  margin: 0 0.1em;
+  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.subtitle {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  font-weight: 300;
+  letter-spacing: 2px;
+  opacity: 0.95;
+  text-transform: uppercase;
+  margin-top: 2rem;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.ratingBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  padding: 0.6rem 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50px;
+  animation: fadeUp 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  opacity: 0;
+}
+
+.stars {
+  display: flex;
+  color: var(--color-secondary);
+  gap: 2px;
+}
+
+.ratingBadge span {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  color: #fff;
+}
+
+.ratingBadge strong {
+  font-weight: 600;
+}
+
+
+
+@keyframes subtleZoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+

@@ -1,0 +1,169 @@
+.featured {
+  padding: var(--section-padding);
+  background-color: var(--color-surface);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.title {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  color: var(--color-text-muted);
+  font-size: 1.1rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2.5rem;
+  margin-bottom: 3rem;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.card {
+  background: var(--color-background);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  transition: box-shadow var(--transition-slow), transform var(--transition-slow);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(26, 54, 54, 0.03);
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-lg);
+}
+
+.imageContainer {
+  position: relative;
+  height: 300px;
+  overflow: hidden;
+}
+
+.image {
+  transition: transform var(--transition-slow);
+}
+
+.card:hover .image {
+  transform: scale(1.05);
+}
+
+.badge {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  background-color: var(--color-surface);
+  color: var(--color-primary);
+  padding: 0.5rem 1.2rem;
+  border-radius: 2px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  z-index: 2;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.cardContent {
+  padding: 2rem;
+}
+
+.propName {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-primary);
+  font-weight: 300;
+}
+
+.propLocation {
+  color: var(--color-secondary);
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.amenities {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 2rem;
+}
+
+.dot {
+  color: #ccc;
+}
+
+.cardBtn {
+  width: 100%;
+  text-align: center;
+}
+
+.viewAll {
+  text-align: center;
+  margin-top: 4rem;
+}
+
+/* Coming Soon Card Styles */
+.comingSoonCard {
+  background: transparent;
+  border: 2px dashed rgba(26, 54, 54, 0.2);
+  box-shadow: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.comingSoonCard:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: rgba(26, 54, 54, 0.4);
+}
+
+.comingSoonContent {
+  padding: 3rem;
+}
+
+.comingSoonTitle {
+  font-size: 1.5rem;
+  color: var(--color-primary);
+  opacity: 0.7;
+  margin-bottom: 1rem;
+  font-weight: 400;
+}
+
+.comingSoonText {
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+  opacity: 0.8;
+}
+
+.comingSoonBtn {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: rgba(26, 54, 54, 0.3);
+  color: var(--color-primary);
+}
+
+.comingSoonBtn:hover {
+  background-color: transparent;
+  color: var(--color-primary);
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

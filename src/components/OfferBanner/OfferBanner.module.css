@@ -1,0 +1,32 @@
+.banner {
+  background-color: var(--color-primary);
+  color: var(--color-secondary);
+  padding: 0.8rem 0;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(201, 169, 126, 0.2);
+}
+
+.ticker {
+  width: 100%;
+  overflow: hidden;
+}
+
+.tickerContent {
+  display: inline-flex;
+  white-space: nowrap;
+  animation: ticker 30s linear infinite;
+}
+
+.tickerContent span {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 0 3rem;
+  font-weight: 500;
+}
+
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}

@@ -1,0 +1,82 @@
+.testimonials {
+  padding: var(--section-padding);
+  background-color: var(--color-surface);
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.stars {
+  color: var(--color-secondary);
+  font-size: 1.5rem;
+  letter-spacing: 4px;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: clamp(2rem, 4vw, 2.5rem);
+}
+
+.carousel {
+  position: relative;
+  max-width: 800px;
+  margin: 0 auto;
+  min-height: 200px;
+}
+
+.review {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  transform: translateX(20px);
+  transition: all 0.6s ease;
+  text-align: center;
+  pointer-events: none;
+}
+
+.review.active {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.quote {
+  font-family: var(--font-heading);
+  font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+  color: var(--color-primary);
+  line-height: 1.5;
+  margin-bottom: 2rem;
+  font-style: italic;
+}
+
+.author {
+  font-family: var(--font-body);
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 0.9rem;
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  margin-top: 2rem;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #e0e0e0;
+  transition: background-color var(--transition-normal);
+}
+
+.dot.activeDot {
+  background-color: var(--color-secondary);
+}
