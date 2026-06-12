@@ -5,20 +5,20 @@ export default function FeaturedProperties() {
   const properties = [
     {
       id: 1,
-      name: "The Sapphire Estate",
-      location: "Seaside, 30A",
-      guests: 12,
-      beds: 6,
-      baths: 6.5,
+      name: "Key Lime Pie",
+      price: "$230/night",
+      guests: 10,
+      beds: 4,
+      baths: 3,
       image: "/images/hero_coastal_sunset_1781267807355.png" // Reusing hero for now
     },
     {
       id: 2,
-      name: "Coral Reef Retreat",
-      location: "Rosemary Beach, 30A",
-      guests: 8,
-      beds: 4,
-      baths: 4,
+      name: "Sea La Vie",
+      price: "$199/night",
+      guests: 14,
+      beds: 5,
+      baths: 5,
       // We will use the new exterior image generated here, assuming its path
       image: "/images/luxury_beach_house_exterior_1781270018064.png"
     }
@@ -47,7 +47,7 @@ export default function FeaturedProperties() {
               </div>
               <div className={styles.cardContent}>
                 <h3 className={styles.propName}>{prop.name}</h3>
-                <p className={styles.propLocation}>{prop.location}</p>
+                <p className={styles.propLocation}>{prop.price}</p>
                 <div className={styles.amenities}>
                   <span>{prop.guests} Guests</span>
                   <span className={styles.dot}>•</span>

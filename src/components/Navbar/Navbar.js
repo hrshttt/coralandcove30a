@@ -38,11 +38,6 @@ export default function Navbar() {
 
         <nav className={`${styles.nav} ${mobileMenuOpen ? styles.open : ''}`}>
           <ul className={styles.navList}>
-            <li><Link href="#properties" className={styles.navLink} onClick={() => setMobileMenuOpen(false)}>Properties</Link></li>
-            <li><Link href="#about" className={styles.navLink} onClick={() => setMobileMenuOpen(false)}>About Us</Link></li>
-            <li><Link href="#experiences" className={styles.navLink} onClick={() => setMobileMenuOpen(false)}>Experiences</Link></li>
-            <li><Link href="#reviews" className={styles.navLink} onClick={() => setMobileMenuOpen(false)}>Reviews</Link></li>
-            <li><Link href="#contact" className={styles.navLink} onClick={() => setMobileMenuOpen(false)}>Contact</Link></li>
             <li>
               <Link href="#book" className={`btn-primary ${styles.bookBtn}`} onClick={() => setMobileMenuOpen(false)}>
                 <span>Book Now</span>
