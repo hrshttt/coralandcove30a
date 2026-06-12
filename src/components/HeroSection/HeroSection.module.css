@@ -141,4 +141,23 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-
+@media (max-width: 768px) {
+  .hero {
+    height: auto;
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: 6rem; /* navbar height + space */
+  }
+  .content {
+    padding-bottom: 2rem;
+    height: auto;
+    flex: 1;
+  }
+  .title {
+    font-size: clamp(3.5rem, 15vw, 5rem);
+  }
+  .ratingBadge {
+    margin-top: 1.5rem;
+  }
+}

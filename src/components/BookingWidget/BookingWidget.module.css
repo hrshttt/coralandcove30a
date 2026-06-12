@@ -198,19 +198,45 @@
 
 @media (max-width: 768px) {
   .glassBar {
-    bottom: 0;
+    position: relative;
+    bottom: auto;
+    left: auto;
+    transform: none;
+    width: 100%;
+    margin: 2rem auto 0;
+    z-index: 10;
   }
   .glassContainer {
     border-radius: 0;
-    border-left: none;
-    border-right: none;
-    border-bottom: none;
-    padding: 1rem;
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 1.5rem;
+    background: rgba(26, 54, 54, 0.85);
+    flex-direction: column;
+    gap: 0.5rem;
   }
   .glassItem {
+    width: 100%;
     min-width: 100%;
   }
   .glassItem::after {
     display: none;
+  }
+  .triggerBtn {
+    padding: 0.75rem 0;
+  }
+  .searchBtn {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 1rem;
+    padding: 1.2rem;
+  }
+  .popover {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    border-radius: 20px 20px 0 0;
+    z-index: 100;
   }
 }
