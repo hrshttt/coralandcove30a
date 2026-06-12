@@ -145,19 +145,30 @@
   .hero {
     height: auto;
     min-height: 100vh;
+    min-height: 100dvh;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-end;
     padding-top: 6rem; /* navbar height + space */
   }
   .content {
     padding-bottom: 2rem;
     height: auto;
-    flex: 1;
+    flex: 0;
+    margin-bottom: auto; /* Push widget to bottom */
+    margin-top: auto;    /* Push content to center */
   }
   .title {
-    font-size: clamp(3.5rem, 15vw, 5rem);
+    font-size: clamp(3rem, 12vw, 4rem);
+  }
+  .subtitle {
+    margin-top: 1rem;
+    font-size: 0.9rem;
   }
   .ratingBadge {
     margin-top: 1.5rem;
+    padding: 0.5rem 1rem;
+  }
+  .ratingBadge span {
+    font-size: 0.75rem;
   }
 }

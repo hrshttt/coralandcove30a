@@ -202,34 +202,54 @@
     bottom: auto;
     left: auto;
     transform: none;
-    width: 100%;
-    margin: 2rem auto 0;
+    width: auto;
+    margin: 1rem;
     z-index: 10;
   }
   .glassContainer {
-    border-radius: 0;
-    border: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
-    padding: 1.5rem;
-    background: rgba(26, 54, 54, 0.85);
-    flex-direction: column;
-    gap: 0.5rem;
+    border-radius: var(--border-radius-lg);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 1rem;
+    background: rgba(26, 54, 54, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    align-items: stretch;
   }
   .glassItem {
     width: 100%;
-    min-width: 100%;
+    min-width: 0;
+  }
+  .glassItem:nth-child(1) {
+    grid-column: 1;
+    border-right: 1px solid rgba(255,255,255,0.1);
+  }
+  .glassItem:nth-child(2) {
+    grid-column: 2;
+  }
+  .glassItem:nth-child(3) {
+    grid-column: 1 / span 2;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
   }
   .glassItem::after {
     display: none;
   }
   .triggerBtn {
-    padding: 0.75rem 0;
+    padding: 0.5rem;
+  }
+  .triggerContent p {
+    font-size: 1.1rem;
   }
   .searchBtn {
+    grid-column: 1 / span 2;
     width: 100%;
     margin-left: 0;
     margin-top: 1rem;
-    padding: 1.2rem;
+    padding: 1rem;
   }
   .popover {
     position: fixed;
