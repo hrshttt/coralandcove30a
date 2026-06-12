@@ -17,10 +17,12 @@
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.toggleButton:hover {
-  transform: scale(1.05) translateY(-5px);
-  box-shadow: 0 15px 35px rgba(26, 54, 54, 0.3);
-  border-color: var(--color-secondary);
+@media (hover: hover) {
+  .toggleButton:hover {
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 0 15px 35px rgba(26, 54, 54, 0.3);
+    border-color: var(--color-secondary);
+  }
 }
 
 .toggleButton.hidden {
@@ -110,9 +112,11 @@
   justify-content: center;
 }
 
-.closeButton:hover {
-  opacity: 1;
-  transform: rotate(90deg);
+@media (hover: hover) {
+  .closeButton:hover {
+    opacity: 1;
+    transform: rotate(90deg);
+  }
 }
 
 .messagesContainer {
@@ -217,10 +221,12 @@
   flex-shrink: 0;
 }
 
-.sendButton:not(:disabled):hover {
-  background-color: var(--color-primary);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(26, 54, 54, 0.15);
+@media (hover: hover) {
+  .sendButton:not(:disabled):hover {
+    background-color: var(--color-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(26, 54, 54, 0.15);
+  }
 }
 
 .sendButton:not(:disabled):active {

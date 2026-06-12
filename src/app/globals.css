@@ -128,8 +128,10 @@ button {
   z-index: 2;
 }
 
-.btn-primary:hover::before {
-  transform: translateY(0);
+@media (hover: hover) {
+  .btn-primary:hover::before {
+    transform: translateY(0);
+  }
 }
 
 .btn-outline {
@@ -147,9 +149,11 @@ button {
   justify-content: center;
 }
 
-.btn-outline:hover {
-  background-color: var(--color-primary);
-  color: #fff;
+@media (hover: hover) {
+  .btn-outline:hover {
+    background-color: var(--color-primary);
+    color: #fff;
+  }
 }
 
 /* Animations */

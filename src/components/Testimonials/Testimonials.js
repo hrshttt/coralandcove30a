@@ -7,7 +7,7 @@ export default function Testimonials() {
   const reviews = [
     {
       id: 1,
-      text: "Absolutely stunning property. The attention to detail and level of service provided by Coral & Cove is unmatched. We will definitely be returning next year.",
+      text: "Exceeded every expectation. The attention to detail and personalized service made our family vacation truly unforgettable.",
       author: "Sarah Jenkins",
       rating: 5
     },

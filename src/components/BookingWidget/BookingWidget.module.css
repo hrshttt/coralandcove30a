@@ -8,6 +8,12 @@
   z-index: 10;
 }
 
+/* Hide mobile elements on desktop */
+.mobilePillBtnContainer,
+.mobileModal {
+  display: none;
+}
+
 .glassContainer {
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(20px);
@@ -48,8 +54,10 @@
   transition: background-color var(--transition-fast);
 }
 
-.triggerBtn:hover {
-  background-color: rgba(255, 255, 255, 0.05);
+@media (hover: hover) {
+  .triggerBtn:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
 }
 
 .triggerContent span {
@@ -73,8 +81,10 @@
   transition: color var(--transition-fast);
 }
 
-.triggerBtn:hover .icon {
-  color: #fff;
+@media (hover: hover) {
+  .triggerBtn:hover .icon {
+    color: #fff;
+  }
 }
 
 .searchBtn {
@@ -164,9 +174,11 @@
   transition: all var(--transition-fast);
 }
 
-.controlBtn:not(:disabled):hover {
-  border-color: var(--color-primary);
-  color: var(--color-primary);
+@media (hover: hover) {
+  .controlBtn:not(:disabled):hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+  }
 }
 
 .controlBtn:disabled {
@@ -197,68 +209,212 @@
 }
 
 @media (max-width: 768px) {
+  /* Hide Desktop Layout */
+  .desktopWidget {
+    display: none;
+  }
+
+  /* Reset GlassBar for Mobile Pill */
   .glassBar {
     position: relative;
     bottom: auto;
     left: auto;
     transform: none;
-    width: auto;
-    margin: 1rem;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
     z-index: 10;
+    padding: 0 1rem;
   }
-  .glassContainer {
-    border-radius: var(--border-radius-lg);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    padding: 1rem;
-    background: rgba(26, 54, 54, 0.6);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+
+  /* Mobile Pill Button */
+  .mobilePillBtnContainer {
+    display: block;
+    width: calc(100% - 65px); /* Leave room for the chatbot on the right */
+  }
+
+  .mobilePillBtn {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    width: 100%;
+    padding: 0.8rem 1.2rem;
+    border-radius: 50px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    transition: transform 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    position: relative;
+    z-index: 20;
+  }
+
+  .mobilePillBtn:active {
+    transform: scale(0.98);
+  }
+
+  .pillIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: var(--color-primary);
+    margin-right: 1rem;
+  }
+
+  .pillText {
     display: flex;
     flex-direction: column;
-    gap: 0;
   }
-  .glassItem {
-    width: 100%;
-    min-width: 0;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    padding-bottom: 0.5rem;
+
+  .pillTitle {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-text-main);
+  }
+
+  .pillSubtitle {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  /* Full Screen Mobile Modal */
+  .mobileModal {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    background-color: #faf9f6; /* Off-white luxury background */
+    z-index: 10000; /* Above navbar (1000) and chat widget (999) */
+    animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+
+  .mobileModalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    background: #fff;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+  }
+
+  .mobileModalHeader h3 {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--color-primary);
+  }
+
+  .closeBtn {
+    background: none;
+    border: none;
+    padding: 0.75rem;
+    margin: -0.75rem;
+    color: var(--color-text-main);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    min-width: 44px;
+    min-height: 44px;
+    position: relative;
+    z-index: 10;
+  }
+
+  .mobileModalBody {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1.5rem;
+  }
+
+  .mobileSection {
+    background: #fff;
+    border-radius: var(--border-radius-lg);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .mobileSection h4 {
+    margin: 0 0 1.5rem 0;
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    color: var(--color-primary);
+  }
+
+  .mobileDateInputs {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .dateInputGroup {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .dateInputGroup label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--color-text-muted);
     margin-bottom: 0.5rem;
   }
-  .glassItem:nth-child(1),
-  .glassItem:nth-child(2),
-  .glassItem:nth-child(3) {
-    grid-column: auto;
-    border-right: none;
-    border-top: none;
-    margin-top: 0;
-    padding-top: 0;
+
+  .nativeDateInput {
+    padding: 0.8rem;
+    border: 1px solid rgba(0,0,0,0.1);
+    border-radius: var(--border-radius);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    color: var(--color-text-main);
+    background: #faf9f6;
+    width: 100%;
   }
-  .glassItem:nth-child(3) {
-    border-bottom: none;
-    padding-bottom: 0;
-    margin-bottom: 0;
+
+  .mobileModalFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background: #fff;
+    border-top: 1px solid rgba(0,0,0,0.05);
+    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
   }
-  .glassItem::after {
-    display: none;
-  }
-  .triggerBtn {
+
+  .clearBtn {
+    background: none;
+    border: none;
+    text-decoration: underline;
+    font-family: var(--font-body);
+    font-weight: 600;
+    color: var(--color-text-main);
     padding: 0.5rem;
   }
-  .triggerContent p {
-    font-size: 1.1rem;
-  }
-  .searchBtn {
-    width: 100%;
-    margin-left: 0;
-    margin-top: 1rem;
-    padding: 1.2rem;
-  }
-  .popover {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    border-radius: 20px 20px 0 0;
-    z-index: 100;
+
+  .mobileSearchBtn {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
   }
 }

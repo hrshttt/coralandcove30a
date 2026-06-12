@@ -60,7 +60,7 @@
   font-size: 0.85rem;
   text-transform: uppercase;
   letter-spacing: 6px;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   color: #ffffff;
   font-weight: 500;
 }
@@ -160,6 +160,11 @@
   }
   .title {
     font-size: clamp(3rem, 12vw, 4rem);
+  }
+  .eyebrow {
+    font-size: 0.6rem;
+    letter-spacing: 3px;
+    margin-bottom: 0.5rem;
   }
   .subtitle {
     margin-top: 1rem;
