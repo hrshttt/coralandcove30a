@@ -143,20 +143,21 @@
 
 @media (max-width: 768px) {
   .hero {
-    height: auto;
-    min-height: 100vh;
-    min-height: 100dvh;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 600px;
     flex-direction: column;
-    justify-content: flex-end;
-    padding-top: 6rem; /* navbar height + space */
-    padding-bottom: 6rem; /* Dedicated space for ChatWidget to hover without overlapping */
+    justify-content: center;
+    padding-top: 4rem;
+    padding-bottom: 0;
   }
   .content {
-    padding-bottom: 2rem;
+    padding-bottom: 0;
     height: auto;
-    flex: 0;
-    margin-bottom: auto; /* Push widget to bottom */
-    margin-top: auto;    /* Push content to center */
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .title {
     font-size: clamp(3rem, 12vw, 4rem);

@@ -1,11 +1,10 @@
 "use client";
 
 import { useState, useRef, useEffect } from 'react';
-import { createPortal } from 'react-dom';
 import { format } from 'date-fns';
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
-import { ChevronDown, Calendar, Users, Plus, Minus, Search, X } from 'lucide-react';
+import { ChevronDown, Calendar, Users, Plus, Minus, X } from 'lucide-react';
 import styles from './BookingWidget.module.css';
 
 export default function BookingWidget() {
@@ -13,13 +12,17 @@ export default function BookingWidget() {
   const [checkOut, setCheckOut] = useState();
   const [guests, setGuests] = useState({ adults: 2, children: 0 });
   const [activePopover, setActivePopover] = useState(null); // 'arrival', 'departure', 'guests'
-  const [showMobileModal, setShowMobileModal] = useState(false);
+  const [mobileSheetOpen, setMobileSheetOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   
   const widgetRef = useRef(null);
-  const [mounted, setMounted] = useState(false);
 
+  // Detect mobile
   useEffect(() => {
-    setMounted(true);
+    const checkMobile = () => setIsMobile(window.innerWidth <= 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   // Close popover when clicking outside
@@ -33,22 +36,20 @@ export default function BookingWidget() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Prevent background scrolling when mobile modal is open
+  // Prevent body scroll when mobile sheet is open
   useEffect(() => {
-    if (showMobileModal) {
+    if (mobileSheetOpen) {
       document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = '';
     }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [showMobileModal]);
+    return () => { document.body.style.overflow = ''; };
+  }, [mobileSheetOpen]);
 
   const handleSearch = () => {
-    // In a real app, this would route to a search page with URL params
     alert(`Searching availability:\\nCheck-in: ${checkIn ? format(checkIn, 'PP') : 'Any'}\\nCheck-out: ${checkOut ? format(checkOut, 'PP') : 'Any'}\\nAdults: ${guests.adults}, Children: ${guests.children}`);
     setActivePopover(null);
+    setMobileSheetOpen(false);
   };
 
   const updateGuests = (type, operation) => {
@@ -56,20 +57,165 @@ export default function BookingWidget() {
       const current = prev[type];
       const next = operation === 'add' ? current + 1 : current - 1;
       
-      // Validation
       if (type === 'adults' && next < 1) return prev;
       if (type === 'children' && next < 0) return prev;
-      if (prev.adults + prev.children >= 12 && operation === 'add') return prev; // max 12 guests
+      if (prev.adults + prev.children >= 12 && operation === 'add') return prev;
       
       return { ...prev, [type]: next };
     });
   };
 
+  const totalGuests = guests.adults + guests.children;
+
+  // ──── MOBILE: Single CTA button + full-screen bottom sheet ────
+  if (isMobile) {
+    return (
+      <>
+        {/* The single collapsed button */}
+        <div className={styles.mobileCta}>
+          <button 
+            className={`btn-primary ${styles.mobileCtaBtn}`}
+            onClick={() => setMobileSheetOpen(true)}
+          >
+            <Calendar size={18} />
+            <span>Check Availability</span>
+          </button>
+        </div>
+
+        {/* Full-screen bottom sheet */}
+        {mobileSheetOpen && (
+          <div className={styles.sheetOverlay} onClick={() => { setMobileSheetOpen(false); setActivePopover(null); }}>
+            <div className={styles.sheet} onClick={(e) => e.stopPropagation()}>
+              <div className={styles.sheetHeader}>
+                <h3 className={styles.sheetTitle}>Plan Your Stay</h3>
+                <button className={styles.sheetClose} onClick={() => { setMobileSheetOpen(false); setActivePopover(null); }}>
+                  <X size={22} />
+                </button>
+              </div>
+
+              <div className={styles.sheetBody}>
+                {/* Arrival */}
+                <div className={styles.sheetField}>
+                  <label className={styles.sheetLabel}>Arrival</label>
+                  <button 
+                    className={styles.sheetInput}
+                    onClick={() => setActivePopover(activePopover === 'arrival' ? null : 'arrival')}
+                  >
+                    <span>{checkIn ? format(checkIn, 'MMM d, yyyy') : 'Select date'}</span>
+                    <Calendar size={18} />
+                  </button>
+                  {activePopover === 'arrival' && (
+                    <div className={styles.sheetCalendar}>
+                      <DayPicker
+                        mode="single"
+                        selected={checkIn}
+                        onSelect={(date) => {
+                          setCheckIn(date);
+                          setActivePopover('departure');
+                          if (checkOut && date > checkOut) setCheckOut(undefined);
+                        }}
+                        disabled={{ before: new Date() }}
+                        className={styles.calendar}
+                      />
+                    </div>
+                  )}
+                </div>
+
+                {/* Departure */}
+                <div className={styles.sheetField}>
+                  <label className={styles.sheetLabel}>Departure</label>
+                  <button 
+                    className={styles.sheetInput}
+                    onClick={() => setActivePopover(activePopover === 'departure' ? null : 'departure')}
+                  >
+                    <span>{checkOut ? format(checkOut, 'MMM d, yyyy') : 'Select date'}</span>
+                    <Calendar size={18} />
+                  </button>
+                  {activePopover === 'departure' && (
+                    <div className={styles.sheetCalendar}>
+                      <DayPicker
+                        mode="single"
+                        selected={checkOut}
+                        onSelect={(date) => {
+                          setCheckOut(date);
+                          setActivePopover('guests');
+                        }}
+                        disabled={{ before: checkIn || new Date() }}
+                        className={styles.calendar}
+                      />
+                    </div>
+                  )}
+                </div>
+
+                {/* Guests */}
+                <div className={styles.sheetField}>
+                  <label className={styles.sheetLabel}>Guests</label>
+                  <div className={styles.sheetGuestSection}>
+                    <div className={styles.guestRow}>
+                      <div>
+                        <h4>Adults</h4>
+                        <p>Ages 13 or above</p>
+                      </div>
+                      <div className={styles.controls}>
+                        <button 
+                          onClick={() => updateGuests('adults', 'subtract')}
+                          disabled={guests.adults <= 1}
+                          className={styles.controlBtn}
+                        >
+                          <Minus size={16} />
+                        </button>
+                        <span className={styles.count}>{guests.adults}</span>
+                        <button 
+                          onClick={() => updateGuests('adults', 'add')}
+                          className={styles.controlBtn}
+                        >
+                          <Plus size={16} />
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className={styles.guestRow}>
+                      <div>
+                        <h4>Children</h4>
+                        <p>Ages 0-12</p>
+                      </div>
+                      <div className={styles.controls}>
+                        <button 
+                          onClick={() => updateGuests('children', 'subtract')}
+                          disabled={guests.children <= 0}
+                          className={styles.controlBtn}
+                        >
+                          <Minus size={16} />
+                        </button>
+                        <span className={styles.count}>{guests.children}</span>
+                        <button 
+                          onClick={() => updateGuests('children', 'add')}
+                          className={styles.controlBtn}
+                        >
+                          <Plus size={16} />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className={styles.sheetFooter}>
+                <button className={`btn-primary ${styles.sheetSearchBtn}`} onClick={handleSearch}>
+                  <span>Check Availability</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </>
+    );
+  }
+
+  // ──── DESKTOP: Original glass bar layout ────
   return (
-    <>
     <div className={styles.glassBar} ref={widgetRef}>
-      {/* --- DESKTOP WIDGET --- */}
-      <div className={`container ${styles.glassContainer} ${styles.desktopWidget}`}>
+      <div className={`container ${styles.glassContainer}`}>
         
         {/* ARRIVAL */}
         <div className={styles.glassItem}>
@@ -138,7 +284,7 @@ export default function BookingWidget() {
           >
             <div className={styles.triggerContent}>
               <span>Guests</span>
-              <p>{guests.adults + guests.children} {guests.adults + guests.children === 1 ? 'Guest' : 'Guests'}</p>
+              <p>{totalGuests} {totalGuests === 1 ? 'Guest' : 'Guests'}</p>
             </div>
             <Users size={18} className={styles.icon} />
           </button>
@@ -198,124 +344,6 @@ export default function BookingWidget() {
           <span>Check Availability</span>
         </button>
       </div>
-
-      {/* --- MOBILE PILL BUTTON --- */}
-      <div className={styles.mobilePillBtnContainer}>
-        <button 
-          type="button" 
-          className={styles.mobilePillBtn} 
-          onClick={() => setShowMobileModal(true)}
-          onTouchEnd={(e) => { e.preventDefault(); setShowMobileModal(true); }}
-        >
-          <div className={styles.pillIcon}>
-            <Search size={20} />
-          </div>
-          <div className={styles.pillText}>
-            <span className={styles.pillTitle}>Where to?</span>
-            <span className={styles.pillSubtitle}>
-              {checkIn ? format(checkIn, 'MMM d') : 'Any week'} • {guests.adults + guests.children} guests
-            </span>
-          </div>
-        </button>
-      </div>
     </div>
-
-      {/* --- MOBILE MODAL --- */}
-      {showMobileModal && mounted && createPortal(
-        <div className={styles.mobileModal}>
-          <div className={styles.mobileModalHeader}>
-            <button 
-              type="button" 
-              className={styles.closeBtn} 
-              onClick={() => setShowMobileModal(false)}
-              onTouchEnd={(e) => { e.preventDefault(); setShowMobileModal(false); }}
-            >
-              <X size={24} />
-            </button>
-            <h3>Search your stay</h3>
-            <div style={{ width: 24 }}></div> {/* Balance for centering */}
-          </div>
-          
-          <div className={styles.mobileModalBody}>
-            <div className={styles.mobileSection}>
-              <h4>When&apos;s your trip?</h4>
-              <div className={styles.mobileDateInputs}>
-                <div className={styles.dateInputGroup}>
-                  <label>Arrival</label>
-                  <input 
-                    type="date" 
-                    value={checkIn ? format(checkIn, 'yyyy-MM-dd') : ''} 
-                    onChange={(e) => {
-                      const date = new Date(e.target.value + 'T00:00:00'); // Prevent timezone shift
-                      setCheckIn(date);
-                      if (checkOut && date > checkOut) setCheckOut(undefined);
-                    }}
-                    id="mobileCheckIn"
-                    className={styles.nativeDateInput}
-                    min={mounted ? format(new Date(), 'yyyy-MM-dd') : undefined}
-                  />
-                </div>
-                <div className={styles.dateInputGroup}>
-                  <label>Departure</label>
-                  <input 
-                    type="date" 
-                    value={checkOut ? format(checkOut, 'yyyy-MM-dd') : ''} 
-                    onChange={(e) => setCheckOut(e.target.value ? new Date(e.target.value + 'T00:00:00') : undefined)}
-                    id="mobileCheckOut"
-                    className={styles.nativeDateInput}
-                    min={checkIn ? format(checkIn, 'yyyy-MM-dd') : (mounted ? format(new Date(), 'yyyy-MM-dd') : undefined)}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className={styles.mobileSection}>
-              <h4>Who&apos;s coming?</h4>
-              <div className={styles.guestRow}>
-                <div>
-                  <h4>Adults</h4>
-                  <p>Ages 13 or above</p>
-                </div>
-                <div className={styles.controls}>
-                  <button onClick={() => updateGuests('adults', 'subtract')} disabled={guests.adults <= 1} className={styles.controlBtn}>
-                    <Minus size={16} />
-                  </button>
-                  <span className={styles.count}>{guests.adults}</span>
-                  <button onClick={() => updateGuests('adults', 'add')} className={styles.controlBtn}>
-                    <Plus size={16} />
-                  </button>
-                </div>
-              </div>
-
-              <div className={styles.guestRow}>
-                <div>
-                  <h4>Children</h4>
-                  <p>Ages 0-12</p>
-                </div>
-                <div className={styles.controls}>
-                  <button onClick={() => updateGuests('children', 'subtract')} disabled={guests.children <= 0} className={styles.controlBtn}>
-                    <Minus size={16} />
-                  </button>
-                  <span className={styles.count}>{guests.children}</span>
-                  <button onClick={() => updateGuests('children', 'add')} className={styles.controlBtn}>
-                    <Plus size={16} />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className={styles.mobileModalFooter}>
-            <button className={styles.clearBtn} onClick={() => { setCheckIn(undefined); setCheckOut(undefined); setGuests({adults:2, children:0}); }}>
-              Clear all
-            </button>
-            <button className={`btn-primary ${styles.mobileSearchBtn}`} onClick={handleSearch}>
-              <Search size={18} /> <span>Search</span>
-            </button>
-          </div>
-        </div>,
-        document.body
-      )}
-    </>
   );
 }

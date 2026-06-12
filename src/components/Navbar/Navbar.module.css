@@ -7,13 +7,6 @@
   padding: 2rem 0;
   transition: all var(--transition-slow);
   background: transparent;
-  /* Allow taps to pass through the transparent header background on mobile */
-  pointer-events: none;
-}
-
-/* Re-enable pointer events on all interactive children */
-.header > * {
-  pointer-events: auto;
 }
 
 .header.scrolled {
@@ -22,8 +15,6 @@
   -webkit-backdrop-filter: blur(12px);
   padding: 1.25rem 0;
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
-  /* When scrolled and has a visible background, intercept all touches normally */
-  pointer-events: auto;
 }
 
 .container {
@@ -93,10 +84,8 @@
   transition: width var(--transition-normal);
 }
 
-@media (hover: hover) {
-  .navLink:hover::after {
-    width: 100%;
-  }
+.navLink:hover::after {
+  width: 100%;
 }
 
 .header.scrolled .navLink {
@@ -107,10 +96,8 @@
   background-color: var(--color-primary);
 }
 
-@media (hover: hover) {
-  .header.scrolled .navLink:hover {
-    color: var(--color-primary);
-  }
+.header.scrolled .navLink:hover {
+  color: var(--color-primary);
 }
 
 .bookBtn {
@@ -125,10 +112,8 @@
   background-color: #fff;
 }
 
-@media (hover: hover) {
-  .bookBtn:hover {
-    color: var(--color-primary);
-  }
+.bookBtn:hover {
+  color: var(--color-primary);
 }
 
 .header.scrolled .bookBtn {
@@ -140,10 +125,8 @@
   background-color: var(--color-primary);
 }
 
-@media (hover: hover) {
-  .header.scrolled .bookBtn:hover {
-    color: #fff;
-  }
+.header.scrolled .bookBtn:hover {
+  color: #fff;
 }
 
 .mobileToggle {
@@ -194,7 +177,6 @@
     padding: 6rem 2rem 2rem;
     transition: right var(--transition-slow);
     box-shadow: -5px 0 30px rgba(0,0,0,0.1);
-    pointer-events: auto; /* Always clickable when visible */
   }
 
   .nav.open {

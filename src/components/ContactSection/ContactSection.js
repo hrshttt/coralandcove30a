@@ -6,7 +6,7 @@ export default function ContactSection() {
       <div className={`container ${styles.containerInner}`}>
         <div className={styles.textContent}>
           <p className={styles.eyebrow}>Get in Touch</p>
-          <h2 className={styles.title}>Let&apos;s Plan Your Stay</h2>
+          <h2 className={styles.title}>Let's Plan Your Escape</h2>
           <div className={styles.divider}></div>
           <p className={styles.description}>
             Whether you have a question about our properties, need assistance planning your itinerary, or require specialized concierge services, our dedicated team is here to ensure every detail is perfect.
