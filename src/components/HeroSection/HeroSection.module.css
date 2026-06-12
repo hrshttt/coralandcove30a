@@ -149,6 +149,7 @@
     flex-direction: column;
     justify-content: flex-end;
     padding-top: 6rem; /* navbar height + space */
+    padding-bottom: 6rem; /* Dedicated space for ChatWidget to hover without overlapping */
   }
   .content {
     padding-bottom: 2rem;
