@@ -203,3 +203,10 @@
     margin-top: 1rem;
   }
 }
+
+@media (max-width: 768px) {
+  :global(body[data-booking-sheet="open"]) .header {
+    opacity: 0;
+    pointer-events: none;
+  }
+}

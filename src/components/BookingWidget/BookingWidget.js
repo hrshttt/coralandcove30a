@@ -40,10 +40,15 @@ export default function BookingWidget() {
   useEffect(() => {
     if (mobileSheetOpen) {
       document.body.style.overflow = 'hidden';
+      document.body.setAttribute('data-booking-sheet', 'open');
     } else {
       document.body.style.overflow = '';
+      document.body.removeAttribute('data-booking-sheet');
     }
-    return () => { document.body.style.overflow = ''; };
+    return () => {
+      document.body.style.overflow = '';
+      document.body.removeAttribute('data-booking-sheet');
+    };
   }, [mobileSheetOpen]);
 
   const handleSearch = () => {
