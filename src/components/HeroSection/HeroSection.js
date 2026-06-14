@@ -1,32 +1,52 @@
+"use client";
+
 import Image from 'next/image';
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import BookingWidget from '../BookingWidget/BookingWidget';
+import FadeIn from '../FadeIn/FadeIn';
 import styles from './HeroSection.module.css';
 
 export default function HeroSection() {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start start", "end start"]
+  });
+  // Move the background down as we scroll down to create parallax
+  const y = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+
   return (
-    <section className={styles.hero}>
-      <div className={styles.background}>
+    <section className={styles.hero} ref={ref}>
+      <motion.div className={styles.background} style={{ y, scale: 1.1 }}>
         <Image
           src="/images/hero_coastal_sunset_1781267807355.png"
-          alt="Coral and Cove 30A Coastal Property at Sunset"
+          alt="Luxury beach house at sunset on 30A"
           fill
+          sizes="100vw"
           priority
           style={{ objectFit: 'cover', objectPosition: 'center' }}
           className={styles.image}
         />
         <div className={styles.overlay}></div>
-      </div>
+      </motion.div>
       
       <div className={styles.content}>
         <div className="container">
           <div className={styles.textContent}>
-            <p className={styles.eyebrow}>Where 30A Meets Five-Star</p>
-            <h1 className={styles.title}>
-              Coral <span className={styles.ampersand}>&amp;</span> Cove
-            </h1>
-            <p className={styles.subtitle}>
-              Curated Luxury Rentals along Highway 30A
-            </p>
+            <FadeIn maskReveal delay={0.1}>
+              <p className={styles.eyebrow}>Where 30A Meets Five-Star</p>
+            </FadeIn>
+            <FadeIn maskReveal delay={0.3}>
+              <h1 className={styles.title}>
+                Coral <span className={styles.ampersand}>&amp;</span> Cove
+              </h1>
+            </FadeIn>
+            <FadeIn maskReveal delay={0.5}>
+              <p className={styles.subtitle}>
+                Curated Luxury Rentals along Highway 30A
+              </p>
+            </FadeIn>
             <div className={styles.ratingBadge}>
               <div className={styles.stars}>
                 {[...Array(5)].map((_, i) => (

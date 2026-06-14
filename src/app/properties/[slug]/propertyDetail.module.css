@@ -1,0 +1,373 @@
+.page {
+  padding-top: 5.5rem; /* Clear fixed navbar */
+}
+
+/* Breadcrumb */
+.breadcrumb {
+  padding: 1.25rem 0;
+  background: var(--color-surface);
+  border-bottom: 1px solid rgba(26, 54, 54, 0.05);
+}
+
+.breadcrumbLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 400;
+  transition: color var(--transition-normal);
+}
+
+.breadcrumbLink:hover {
+  color: var(--color-primary);
+}
+
+/* Gallery */
+.gallerySection {
+  padding: 2rem 0;
+  background: var(--color-surface);
+}
+
+/* Header */
+.headerSection {
+  padding: 0 0 3rem;
+  background: var(--color-surface);
+}
+
+.headerGrid {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 3rem;
+}
+
+.headerInfo {
+  flex: 1;
+}
+
+.locationBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--color-secondary);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.propertyName {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 300;
+  color: var(--color-primary);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+}
+
+.tagline {
+  font-size: 1.1rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.headerAction {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1.25rem;
+  flex-shrink: 0;
+}
+
+.priceBlock {
+  text-align: right;
+}
+
+.priceLabel {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--color-text-muted);
+}
+
+.priceRow {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  justify-content: flex-end;
+}
+
+.priceAmount {
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  font-weight: 400;
+  color: var(--color-primary);
+}
+
+.priceUnit {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+}
+
+.priceNote {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.bookBtn {
+  padding: 1rem 2.5rem;
+}
+
+/* Stats */
+.statsSection {
+  padding: 0 0 3rem;
+  background: var(--color-surface);
+}
+
+.statsBar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  padding: 2rem 3rem;
+  background: var(--color-background);
+  border-radius: var(--border-radius-lg);
+  border: 1px solid rgba(26, 54, 54, 0.05);
+}
+
+.statItem {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--color-primary);
+}
+
+.statItem svg {
+  opacity: 0.5;
+}
+
+.statInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.statValue {
+  font-family: var(--font-heading);
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+.statLabel {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--color-text-muted);
+  margin-top: 0.2rem;
+}
+
+.statDivider {
+  width: 1px;
+  height: 40px;
+  background: rgba(26, 54, 54, 0.1);
+}
+
+/* Description */
+.descriptionSection {
+  padding: 4rem 0;
+  background: var(--color-surface);
+}
+
+.descriptionContent {
+  max-width: 800px;
+}
+
+.sectionTitle {
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 300;
+  color: var(--color-primary);
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+.description {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--color-text-main);
+}
+
+/* Amenities */
+.amenitiesSection {
+  padding: 4rem 0;
+  background: var(--color-surface);
+  border-top: 1px solid rgba(26, 54, 54, 0.05);
+}
+
+/* Booking CTA */
+.bookingSection {
+  padding: 4rem 0;
+  background: var(--color-background);
+}
+
+.bookingCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3rem;
+  padding: 3.5rem;
+  background: var(--color-primary);
+  border-radius: var(--border-radius-lg);
+  color: #fff;
+}
+
+.bookingTitle {
+  font-family: var(--font-heading);
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-weight: 300;
+  color: #fff;
+  margin-bottom: 0.75rem;
+}
+
+.bookingText {
+  font-size: 1rem;
+  opacity: 0.85;
+  line-height: 1.7;
+  max-width: 500px;
+}
+
+.bookingActions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1.25rem;
+  flex-shrink: 0;
+}
+
+.bookingPriceLabel {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  opacity: 0.7;
+}
+
+.bookingPriceRow {
+  display: flex;
+  align-items: baseline;
+  gap: 0.2rem;
+}
+
+.bookingPriceAmount {
+  font-family: var(--font-heading);
+  font-size: 2.2rem;
+  font-weight: 400;
+}
+
+.bookingPriceUnit {
+  font-size: 0.95rem;
+  opacity: 0.7;
+}
+
+.bookingBtn {
+  background-color: #fff;
+  color: var(--color-primary);
+}
+
+.bookingBtn::before {
+  background-color: var(--color-secondary);
+}
+
+.bookingBtn:hover {
+  color: #fff;
+}
+
+/* Reviews */
+.reviewsSection {
+  padding: 5rem 0;
+  background: var(--color-surface);
+}
+
+/* Attractions */
+.attractionsSection {
+  padding: 4rem 0 5rem;
+  background: var(--color-surface);
+  border-top: 1px solid rgba(26, 54, 54, 0.05);
+}
+
+.attractionsLayout {
+  max-width: 700px;
+}
+
+.attractionsHeader {
+  margin-bottom: 2rem;
+}
+
+.attractionsSubtext {
+  color: var(--color-text-muted);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .page {
+    padding-top: 4.5rem;
+  }
+
+  .headerGrid {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .headerAction {
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .priceBlock {
+    text-align: left;
+  }
+
+  .priceRow {
+    justify-content: flex-start;
+  }
+
+  .bookBtn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .statsBar {
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem;
+  }
+
+  .statDivider {
+    width: 60%;
+    height: 1px;
+  }
+
+  .bookingCard {
+    flex-direction: column;
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    gap: 2rem;
+  }
+
+  .bookingActions {
+    align-items: center;
+    width: 100%;
+  }
+
+  .bookingBtn {
+    width: 100%;
+    text-align: center;
+  }
+}

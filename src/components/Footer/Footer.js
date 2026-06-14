@@ -5,7 +5,7 @@ import styles from './Footer.module.css';
 
 export default function Footer() {
   return (
-    <footer id="contact" className={styles.footer}>
+    <footer className={styles.footer}>
       <div className={`container ${styles.container}`}>
         
         <div className={styles.brand}>
@@ -20,7 +20,7 @@ export default function Footer() {
         <div className={styles.links}>
           <h4 className={styles.heading}>Explore</h4>
           <ul>
-            <li><Link href="#properties">Our Properties</Link></li>
+            <li><Link href="/properties">Our Properties</Link></li>
             <li><Link href="#about">About Us</Link></li>
             <li><Link href="#experiences">Experiences</Link></li>
             <li><Link href="#reviews">Guest Reviews</Link></li>

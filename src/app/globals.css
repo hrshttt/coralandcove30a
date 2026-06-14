@@ -15,8 +15,8 @@
   /* Spacing & Layout */
   --max-width: 1440px; /* Wider for luxury feel */
   --section-padding: 8rem 2rem; /* More breathing room */
-  --border-radius: 4px; /* Sharper corners for a modern, high-end look */
-  --border-radius-lg: 12px;
+  --border-radius: 24px; /* Soft, modern curves */
+  --border-radius-lg: 32px; /* Large, elegant curves */
 
   /* Transitions */
   --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -41,6 +41,12 @@ body {
   line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+html {
+  overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -93,6 +99,15 @@ button {
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+.glass-panel {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: var(--border-radius);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+}
+
 .btn-primary {
   background-color: var(--color-primary);
   color: #fff;
@@ -108,6 +123,7 @@ button {
   justify-content: center;
   position: relative;
   overflow: hidden;
+  border-radius: 50px;
 }
 
 .btn-primary::before {
@@ -145,6 +161,7 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  border-radius: 50px;
 }
 
 .btn-outline:hover {

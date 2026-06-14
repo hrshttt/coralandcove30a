@@ -1,45 +1,32 @@
 import Image from 'next/image';
+import Link from 'next/link';
+import { getFeaturedProperties } from '@/lib/properties';
 import styles from './FeaturedProperties.module.css';
+import FadeIn from '@/components/FadeIn/FadeIn';
 
-export default function FeaturedProperties() {
-  const properties = [
-    {
-      id: 1,
-      name: "Key Lime Pie",
-      price: "$230/night",
-      guests: 10,
-      beds: 4,
-      baths: 3,
-      image: "/images/hero_coastal_sunset_1781267807355.png" // Reusing hero for now
-    },
-    {
-      id: 2,
-      name: "Sea La Vie",
-      price: "$199/night",
-      guests: 14,
-      beds: 5,
-      baths: 5,
-      // We will use the new exterior image generated here, assuming its path
-      image: "/images/luxury_beach_house_exterior_1781270018064.png"
-    }
-  ];
+export default async function FeaturedProperties() {
+  const properties = await getFeaturedProperties();
 
   return (
     <section id="properties" className={styles.featured}>
       <div className="container">
-        <div className={styles.header}>
-          <h2 className={styles.title}>Featured Properties</h2>
-          <p className={styles.subtitle}>Discover our handpicked selection of exceptional homes</p>
-        </div>
+        <FadeIn>
+          <div className={styles.header}>
+            <h2 className={styles.title}>Featured Properties</h2>
+            <p className={styles.subtitle}>Discover our handpicked selection of exceptional homes</p>
+          </div>
+        </FadeIn>
 
         <div className={styles.grid}>
-          {properties.map((prop) => (
-            <div key={prop.id} className={styles.card}>
+          {properties.map((prop, index) => (
+            <FadeIn key={prop.slug} delay={index * 0.15}>
+              <div className={styles.card}>
               <div className={styles.imageContainer}>
                 <Image
-                  src={prop.image}
-                  alt={prop.name}
+                  src={prop.images[0].src}
+                  alt={prop.images[0].alt}
                   fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                   style={{ objectFit: 'cover' }}
                   className={styles.image}
                 />
@@ -47,7 +34,7 @@ export default function FeaturedProperties() {
               </div>
               <div className={styles.cardContent}>
                 <h3 className={styles.propName}>{prop.name}</h3>
-                <p className={styles.propLocation}>{prop.price}</p>
+                <p className={styles.propLocation}>{prop.price}/night</p>
                 <div className={styles.amenities}>
                   <span>{prop.guests} Guests</span>
                   <span className={styles.dot}>•</span>
@@ -55,23 +42,25 @@ export default function FeaturedProperties() {
                   <span className={styles.dot}>•</span>
                   <span>{prop.baths} Baths</span>
                 </div>
-                <button className={`btn-outline ${styles.cardBtn}`}>View Details</button>
+                <Link href={`/properties/${prop.slug}`} className={`btn-outline ${styles.cardBtn}`}>View Details</Link>
               </div>
             </div>
+          </FadeIn>
           ))}
           
-          <div className={`${styles.card} ${styles.comingSoonCard}`}>
+          <FadeIn delay={properties.length * 0.15}>
+            <div className={`${styles.card} ${styles.comingSoonCard}`}>
             <div className={styles.comingSoonContent}>
               <h3 className={styles.comingSoonTitle}>More Properties<br/>Coming Soon</h3>
               <p className={styles.comingSoonText}>We are continually adding exceptional luxury homes to our curated collection.</p>
-              <button className={`btn-outline ${styles.comingSoonBtn}`} disabled>Stay Tuned</button>
             </div>
           </div>
+          </FadeIn>
         </div>
         
-        <div className={styles.viewAll}>
-          <button className="btn-primary"><span>View All Properties</span></button>
-        </div>
+        <FadeIn delay={0.2} className={styles.viewAll}>
+          <Link href="/properties" className="btn-primary"><span>View All Properties</span></Link>
+        </FadeIn>
       </div>
     </section>
   );
