@@ -1,9 +1,9 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import styles from './point-preserve.module.css';
 import ImageGallery from '@/components/ImageGallery/ImageGallery';
 import FadeIn from '@/components/FadeIn/FadeIn';
 import BookingWidget from '@/components/BookingWidget/BookingWidget';
+import ParallaxImage from '@/components/ParallaxImage/ParallaxImage';
 
 export const metadata = {
   title: 'Point Preserve Inn | Coral & Cove 30A',
@@ -21,13 +21,12 @@ export default function PointPreservePage() {
       {/* Hero Section */}
       <section className={styles.hero}>
         <div className={styles.heroBackground}>
-          <Image
+          <ParallaxImage
             src="/pointpreserve/1.jpg"
             alt="Point Preserve Inn Condominium Community"
-            fill
             sizes="100vw"
-            priority
-            style={{ objectFit: 'cover' }}
+            priority={true}
+            containerClassName={styles.heroBackground}
           />
         </div>
         <div className={styles.heroOverlay}></div>
@@ -86,12 +85,12 @@ export default function PointPreservePage() {
               </p>
             </FadeIn>
             <FadeIn delay={0.3} className={styles.infoImageWrapper}>
-              <Image
+              <ParallaxImage
                 src="/pointpreserve/1.jpg"
                 alt="Scenic 30A Biking Trail"
-                fill
                 sizes="(max-width: 768px) 100vw, 50vw"
-                style={{ objectFit: 'cover' }}
+                containerClassName={styles.infoImageWrapper}
+                speed={0.1}
               />
             </FadeIn>
           </div>
@@ -112,12 +111,12 @@ export default function PointPreservePage() {
               </p>
             </FadeIn>
             <FadeIn delay={0.3} className={styles.infoImageWrapper} style={{ direction: 'ltr' }}>
-              <Image
+              <ParallaxImage
                 src="/pointpreserve/2.jpg"
                 alt="Outdoor event setting at twilight"
-                fill
                 sizes="(max-width: 768px) 100vw, 50vw"
-                style={{ objectFit: 'cover' }}
+                containerClassName={styles.infoImageWrapper}
+                speed={0.1}
               />
             </FadeIn>
           </div>
@@ -127,12 +126,11 @@ export default function PointPreservePage() {
       {/* Final CTA */}
       <section className={styles.ctaSection}>
         <div className={styles.ctaBackground}>
-          <Image
+          <ParallaxImage
             src="/pointpreserve/4.jpg"
             alt="Cozy twilight firepit on a condo balcony"
-            fill
             sizes="100vw"
-            style={{ objectFit: 'cover' }}
+            containerClassName={styles.ctaBackground}
           />
         </div>
         <div className={styles.ctaOverlay}></div>

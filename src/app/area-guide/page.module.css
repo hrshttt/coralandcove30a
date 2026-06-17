@@ -102,11 +102,7 @@
 
 .image {
   border-radius: calc(var(--border-radius-lg) - 0.5rem);
-  transition: transform var(--transition-slow);
-}
-
-.card:hover .image {
-  transform: scale(1.05);
+  /* Parallax is handled by Framer Motion */
 }
 
 .cardContent {

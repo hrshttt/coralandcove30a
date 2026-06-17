@@ -1,9 +1,9 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { getAreaGuidePostBySlug, getAreaGuidePosts } from '@/lib/areaGuide';
 import styles from './page.module.css';
 import FadeIn from '@/components/FadeIn/FadeIn';
+import ParallaxImage from '@/components/ParallaxImage/ParallaxImage';
 import { ArrowLeft } from 'lucide-react';
 
 export async function generateStaticParams() {
@@ -41,13 +41,12 @@ export default async function BlogPostPage({ params }) {
     <article className={styles.article}>
       <header className={styles.hero}>
         <div className={styles.heroBackground}>
-          <Image
+          <ParallaxImage
             src={post.coverImage}
             alt={post.title}
-            fill
             sizes="100vw"
-            priority
-            style={{ objectFit: 'cover' }}
+            priority={true}
+            containerClassName={styles.heroBackground}
           />
         </div>
         <div className={styles.heroOverlay} />

@@ -184,13 +184,15 @@
 }
 
 .teamGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  justify-content: center;
   gap: 3rem;
 }
 
 .teamCard {
   text-align: center;
+  max-width: 400px;
+  width: 100%;
 }
 
 .teamImageWrapper {
@@ -299,7 +301,7 @@
   }
   
   .teamGrid {
-    grid-template-columns: 1fr 1fr;
+    /* Kept as flex for single item */
   }
 }
 
@@ -317,7 +319,7 @@
   }
   
   .teamGrid {
-    grid-template-columns: 1fr;
+    /* Kept as flex for single item */
   }
 }
 

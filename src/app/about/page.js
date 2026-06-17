@@ -1,7 +1,8 @@
-import Image from 'next/image';
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from './about.module.css';
 import FadeIn from '@/components/FadeIn/FadeIn';
+import ParallaxImage from '@/components/ParallaxImage/ParallaxImage';
 
 export const metadata = {
   title: 'About Us | Coral & Cove 30A — Luxury Coastal Vacation Rentals',
@@ -14,13 +15,12 @@ export default function AboutPage() {
       {/* Hero Section */}
       <section className={styles.hero}>
         <div className={styles.heroBackground}>
-          <Image
+          <ParallaxImage
             src="/images/about_hero.png"
             alt="Luxury beach house at sunset on 30A"
-            fill
             sizes="100vw"
-            style={{ objectFit: 'cover' }}
-            priority
+            priority={true}
+            containerClassName={styles.heroBackground}
           />
         </div>
         <div className={styles.heroOverlay}></div>
@@ -46,12 +46,12 @@ export default function AboutPage() {
             </p>
           </FadeIn>
           <FadeIn delay={0.3} className={styles.storyImageWrapper}>
-            <Image
+            <ParallaxImage
               src="/images/about_story.png"
               alt="Couple enjoying a luxury sunset walk on the beach"
-              fill
               sizes="(max-width: 768px) 100vw, 50vw"
-              style={{ objectFit: 'cover' }}
+              containerClassName={styles.storyImageWrapper}
+              speed={0.1}
             />
           </FadeIn>
         </div>
@@ -110,49 +110,27 @@ export default function AboutPage() {
         <div className="container">
           <FadeIn>
             <div className={styles.sectionHeader}>
-              <h2>Meet the Leadership</h2>
-              <p>The dedicated professionals working behind the scenes to craft your perfect stay.</p>
+              <h2>Meet Your Host</h2>
+              <p>The dedicated professional working behind the scenes to craft your perfect stay.</p>
             </div>
           </FadeIn>
           
           <div className={styles.teamGrid}>
             <FadeIn delay={0.1} className={styles.teamCard}>
               <div className={styles.teamImageWrapper}>
-                <div className={styles.teamPlaceholder}>
-                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                    <circle cx="12" cy="7" r="4" />
-                  </svg>
-                </div>
+                <Image
+                  src="/images/thomas-ta.png"
+                  alt="Thomas Ta, Owner & Luxury Realtor"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 400px"
+                  style={{ objectFit: 'cover', objectPosition: 'top' }}
+                />
               </div>
-              <h3>Sarah Jenkins</h3>
-              <p>Founder &amp; Principal</p>
-            </FadeIn>
-            
-            <FadeIn delay={0.3} className={styles.teamCard}>
-              <div className={styles.teamImageWrapper}>
-                <div className={styles.teamPlaceholder}>
-                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                    <circle cx="12" cy="7" r="4" />
-                  </svg>
-                </div>
+              <h3>Thomas Ta</h3>
+              <p>Owner, Luxury Realtor &amp; Host</p>
+              <div style={{ marginTop: '1rem', color: '#4a5568', lineHeight: 1.6, fontSize: '0.95rem', textTransform: 'none', letterSpacing: 'normal', fontFamily: 'var(--font-body)' }}>
+                <p>Thomas is your all-in-one guide to the 30A experience. As the founder of Coral &amp; Cove and a luxury realtor, he ensures every detail of your stay is nothing short of exceptional.</p>
               </div>
-              <h3>Michael Hayes</h3>
-              <p>Director of Hospitality</p>
-            </FadeIn>
-            
-            <FadeIn delay={0.5} className={styles.teamCard}>
-              <div className={styles.teamImageWrapper}>
-                <div className={styles.teamPlaceholder}>
-                  <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                    <circle cx="12" cy="7" r="4" />
-                  </svg>
-                </div>
-              </div>
-              <h3>Elena Rodriguez</h3>
-              <p>Head Concierge</p>
             </FadeIn>
           </div>
         </div>
@@ -161,12 +139,11 @@ export default function AboutPage() {
       {/* CTA Section */}
       <section className={styles.ctaSection}>
         <div className={styles.ctaBackground}>
-          <Image
+          <ParallaxImage
             src="/images/about_cta_bg.png"
             alt="Luxurious coastal patio at twilight"
-            fill
             sizes="100vw"
-            style={{ objectFit: 'cover' }}
+            containerClassName={styles.ctaBackground}
           />
         </div>
         <div className={styles.ctaOverlay}></div>

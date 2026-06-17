@@ -1,13 +1,13 @@
-'use client';
-
-import Image from 'next/image';
 import Link from 'next/link';
-import { areaGuidePosts } from '@/lib/areaGuide';
+import { getAreaGuidePosts } from '@/lib/areaGuide';
 import FadeIn from '@/components/FadeIn/FadeIn';
+import ParallaxImage from '@/components/ParallaxImage/ParallaxImage';
 import styles from './page.module.css';
 import { ArrowRight } from 'lucide-react';
 
 export default function AreaGuidePage() {
+  const areaGuidePosts = getAreaGuidePosts();
+
   if (!areaGuidePosts || areaGuidePosts.length === 0) {
     return null;
   }
@@ -16,13 +16,12 @@ export default function AreaGuidePage() {
     <main className="page-main">
       <section className={styles.hero}>
         <div className={styles.heroBackground}>
-          <Image
+          <ParallaxImage
             src="/images/guideMain.jpg"
             alt="30A Area Guide"
-            fill
             sizes="100vw"
-            priority
-            style={{ objectFit: 'cover' }}
+            priority={true}
+            containerClassName={styles.heroBackground}
           />
           <div className={styles.heroOverlay}></div>
         </div>
@@ -42,13 +41,13 @@ export default function AreaGuidePage() {
               <FadeIn delay={index * 0.1} key={post.id} className={styles.gridItem}>
                 <Link href={`/area-guide/${post.slug}`} className={styles.card}>
                   <div className={styles.imageContainer}>
-                    <Image
+                    <ParallaxImage
                       src={post.coverImage}
                       alt={post.title}
-                      fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                       className={styles.image}
-                      style={{ objectFit: 'cover' }}
+                      containerClassName={styles.imageContainer}
+                      speed={0.1}
                     />
                   </div>
                   <div className={styles.cardContent}>

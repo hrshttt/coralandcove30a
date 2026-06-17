@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import Image from "next/image";
 
 export default function ParallaxImage({ 
   src, 
@@ -9,6 +10,8 @@ export default function ParallaxImage({
   className = "", 
   containerClassName = "",
   speed = 0.2, // Adjusts how fast it scrolls relative to the page
+  priority = false,
+  sizes = "100vw",
   ...props 
 }) {
   const ref = useRef(null);
@@ -25,22 +28,31 @@ export default function ParallaxImage({
     <div 
       ref={ref} 
       className={`overflow-hidden relative ${containerClassName}`}
-      style={{ overflow: 'hidden' }}
+      style={{ overflow: 'hidden', position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
     >
-      <motion.img
-        src={src}
-        alt={alt}
-        className={className}
+      <motion.div
         style={{ 
           y,
           scale: 1.2,
           transformOrigin: 'center center',
+          position: 'absolute',
+          top: 0,
+          left: 0,
           width: '100%',
-          height: '100%',
-          objectFit: 'cover'
+          height: '100%'
         }}
-        {...props}
-      />
+      >
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          priority={priority}
+          sizes={sizes}
+          className={className}
+          style={{ objectFit: 'cover' }}
+          {...props}
+        />
+      </motion.div>
     </div>
   );
 }

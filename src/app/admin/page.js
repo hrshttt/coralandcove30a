@@ -1,7 +1,9 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { Save, Loader2, CheckCircle, Image as ImageIcon, Type, LayoutTemplate } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { Save, Loader2, CheckCircle, Image as ImageIcon, Type, LayoutTemplate, Upload, Map, ChevronDown, ChevronRight, LogOut } from 'lucide-react';
+import Editor from 'react-simple-wysiwyg';
 import styles from './admin.module.css';
 
 export default function AdminDashboard() {
@@ -10,6 +12,41 @@ export default function AdminDashboard() {
   const [saving, setSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState(null);
   const [activeTab, setActiveTab] = useState('hero');
+  const [uploadingImage, setUploadingImage] = useState(null);
+  const [expandedGuideId, setExpandedGuideId] = useState(null);
+  const router = useRouter();
+
+  const handleLogout = () => {
+    document.cookie = "cms_auth=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    router.push('/admin/login');
+  };
+
+  const handleImageUpload = async (file, section, arrayName, index, field) => {
+    if (!file) return;
+    
+    setUploadingImage(`${section}-${index}-${field}`);
+    
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      
+      const res = await fetch('/api/upload', {
+        method: 'POST',
+        body: formData,
+      });
+      
+      if (res.ok) {
+        const result = await res.json();
+        updateArrayItem(section, arrayName, index, field, result.url);
+      } else {
+        console.error('Failed to upload image');
+      }
+    } catch (err) {
+      console.error('Error uploading image:', err);
+    } finally {
+      setUploadingImage(null);
+    }
+  };
 
   useEffect(() => {
     fetch('/api/cms/data')
@@ -58,6 +95,15 @@ export default function AdminDashboard() {
 
   const updateArrayItem = (section, arrayName, index, field, value) => {
     setData(prev => {
+      if (!arrayName) {
+        const newArray = [...prev[section]];
+        newArray[index] = { ...newArray[index], [field]: value };
+        return {
+          ...prev,
+          [section]: newArray
+        };
+      }
+
       const newArray = [...prev[section][arrayName]];
       newArray[index] = { ...newArray[index], [field]: value };
       return {
@@ -85,6 +131,7 @@ export default function AdminDashboard() {
     { id: 'intro', label: 'About/Intro', icon: Type },
     { id: 'experiences', label: 'Experiences', icon: ImageIcon },
     { id: 'testimonials', label: 'Testimonials', icon: Type },
+    { id: 'areaGuides', label: 'Area Guides', icon: Map },
     { id: 'contact', label: 'Contact Details', icon: Type },
   ];
 
@@ -95,14 +142,28 @@ export default function AdminDashboard() {
           <h1 className={styles.pageTitle}>Content Editor</h1>
           <p className={styles.pageSubtitle}>Manage your website's content in real-time.</p>
         </div>
-        <button 
-          onClick={handleSave}
-          disabled={saving}
-          className={styles.saveBtn}
-        >
-          {saving ? <Loader2 size={18} style={{ animation: 'spin 1s linear infinite' }} /> : <Save size={18} />}
-          <span>{saving ? 'Saving...' : 'Save Changes'}</span>
-        </button>
+        <div style={{ display: 'flex', gap: '12px' }}>
+          <button 
+            onClick={handleLogout}
+            style={{ 
+              display: 'flex', alignItems: 'center', gap: '8px', 
+              padding: '8px 16px', background: 'transparent', 
+              border: '1px solid #e5e7eb', borderRadius: '6px', 
+              color: '#4b5563', cursor: 'pointer', fontWeight: 500 
+            }}
+          >
+            <LogOut size={18} />
+            <span>Logout</span>
+          </button>
+          <button 
+            onClick={handleSave}
+            disabled={saving}
+            className={styles.saveBtn}
+          >
+            {saving ? <Loader2 size={18} style={{ animation: 'spin 1s linear infinite' }} /> : <Save size={18} />}
+            <span>{saving ? 'Saving...' : 'Save Changes'}</span>
+          </button>
+        </div>
       </div>
 
       {saveStatus === 'success' && (
@@ -311,14 +372,30 @@ export default function AdminDashboard() {
                       </div>
                       <div className={styles.formCol}>
                         <div className={styles.formGroup}>
-                          <label className={styles.label}>Image Path</label>
-                          <input 
-                            type="text" 
-                            value={item.image} 
-                            onChange={e => updateArrayItem('experiences', 'items', index, 'image', e.target.value)}
-                            className={styles.input}
-                            style={{ fontFamily: 'monospace' }}
-                          />
+                          <label className={styles.label}>Image</label>
+                          <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                            {item.image && (
+                              <img 
+                                src={item.image} 
+                                alt="" 
+                                style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #e5e7eb' }} 
+                              />
+                            )}
+                            <label className={styles.uploadBtn} style={{ flex: 1, padding: '8px' }}>
+                              {uploadingImage === `experiences-${index}-image` ? (
+                                <><Loader2 size={16} style={{ animation: 'spin 1s linear infinite', marginRight: '8px' }} /> Uploading...</>
+                              ) : (
+                                <><Upload size={16} style={{ marginRight: '8px' }} /> {item.image ? 'Change Image' : 'Upload Image'}</>
+                              )}
+                              <input 
+                                type="file" 
+                                accept="image/*" 
+                                style={{ display: 'none' }}
+                                onChange={e => handleImageUpload(e.target.files?.[0], 'experiences', 'items', index, 'image')}
+                                disabled={uploadingImage === `experiences-${index}-image`}
+                              />
+                            </label>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -350,6 +427,172 @@ export default function AdminDashboard() {
                   Guest reviews are now automatically fetched directly from your OwnerRez account (which aggregates Airbnb and VRBO reviews).
                   To manage which reviews appear, please manage them directly within your OwnerRez dashboard.
                 </p>
+              </div>
+            </div>
+          )}
+
+          {/* Area Guides Tab */}
+          {activeTab === 'areaGuides' && (
+            <div style={{ maxWidth: '896px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
+                <h2 className={styles.sectionTitle} style={{ margin: 0 }}>Area Guides</h2>
+                <button 
+                  onClick={() => {
+                    const newId = data.areaGuides && data.areaGuides.length > 0 ? Math.max(...data.areaGuides.map(g => g.id)) + 1 : 1;
+                    setData(prev => ({
+                      ...prev,
+                      areaGuides: [
+                        {
+                          id: newId,
+                          title: "New Guide",
+                          slug: "new-guide",
+                          excerpt: "",
+                          readingTime: "5 min read",
+                          date: new Date().toLocaleDateString('en-US', { month: 'long', day: '2-digit', year: 'numeric' }),
+                          coverImage: "",
+                          content: ""
+                        },
+                        ...(prev.areaGuides || [])
+                      ]
+                    }));
+                  }}
+                  className={styles.saveBtn}
+                  style={{ padding: '6px 12px', fontSize: '0.875rem' }}
+                >
+                  + Add New Guide
+                </button>
+              </div>
+
+              <div>
+                {data.areaGuides?.map((guide, index) => (
+                  <div key={guide.id} className={styles.arrayItem} style={{ flexDirection: 'column', gap: expandedGuideId === guide.id ? '20px' : '0' }}>
+                    <div 
+                      style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', cursor: 'pointer', padding: '4px 0' }}
+                      onClick={() => setExpandedGuideId(expandedGuideId === guide.id ? null : guide.id)}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        {expandedGuideId === guide.id ? <ChevronDown size={20} color="#115e59" /> : <ChevronRight size={20} color="#115e59" />}
+                        <h3 style={{ margin: 0, fontSize: '1.1rem', color: '#115e59' }}>{guide.title || 'New Guide'}</h3>
+                      </div>
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (confirm('Are you sure you want to delete this guide?')) {
+                            setData(prev => {
+                              const newArray = [...prev.areaGuides];
+                              newArray.splice(index, 1);
+                              return { ...prev, areaGuides: newArray };
+                            });
+                          }
+                        }}
+                        style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontSize: '0.875rem', fontWeight: '500' }}
+                      >
+                        Remove
+                      </button>
+                    </div>
+
+                    {expandedGuideId === guide.id && (
+                    <div className={styles.formGrid} style={{ marginTop: '16px' }}>
+                      <div className={styles.formRow}>
+                        <div className={styles.formCol}>
+                          <div className={styles.formGroup}>
+                            <label className={styles.label}>Title</label>
+                            <input 
+                              type="text" 
+                              value={guide.title} 
+                              onChange={e => updateArrayItem('areaGuides', null, index, 'title', e.target.value)}
+                              className={styles.input}
+                            />
+                          </div>
+                        </div>
+                        <div className={styles.formCol}>
+                          <div className={styles.formGroup}>
+                            <label className={styles.label}>Slug (URL friendly)</label>
+                            <input 
+                              type="text" 
+                              value={guide.slug} 
+                              onChange={e => updateArrayItem('areaGuides', null, index, 'slug', e.target.value)}
+                              className={styles.input}
+                              style={{ fontFamily: 'monospace' }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className={styles.formRow}>
+                        <div className={styles.formCol}>
+                          <div className={styles.formGroup}>
+                            <label className={styles.label}>Reading Time</label>
+                            <input 
+                              type="text" 
+                              value={guide.readingTime} 
+                              onChange={e => updateArrayItem('areaGuides', null, index, 'readingTime', e.target.value)}
+                              className={styles.input}
+                            />
+                          </div>
+                        </div>
+                        <div className={styles.formCol}>
+                          <div className={styles.formGroup}>
+                            <label className={styles.label}>Date</label>
+                            <input 
+                              type="text" 
+                              value={guide.date} 
+                              onChange={e => updateArrayItem('areaGuides', null, index, 'date', e.target.value)}
+                              className={styles.input}
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className={styles.formGroup}>
+                        <label className={styles.label}>Cover Image</label>
+                        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                          {guide.coverImage && (
+                            <img 
+                              src={guide.coverImage} 
+                              alt="" 
+                              style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '4px', border: '1px solid #e5e7eb' }} 
+                            />
+                          )}
+                          <label className={styles.uploadBtn} style={{ padding: '8px 16px' }}>
+                            {uploadingImage === `areaGuides-${index}-coverImage` ? (
+                              <><Loader2 size={16} style={{ animation: 'spin 1s linear infinite', marginRight: '8px' }} /> Uploading...</>
+                            ) : (
+                              <><Upload size={16} style={{ marginRight: '8px' }} /> {guide.coverImage ? 'Change Image' : 'Upload Image'}</>
+                            )}
+                            <input 
+                              type="file" 
+                              accept="image/*" 
+                              style={{ display: 'none' }}
+                              onChange={e => handleImageUpload(e.target.files?.[0], 'areaGuides', null, index, 'coverImage')}
+                              disabled={uploadingImage === `areaGuides-${index}-coverImage`}
+                            />
+                          </label>
+                        </div>
+                      </div>
+
+                      <div className={styles.formGroup}>
+                        <label className={styles.label}>Excerpt</label>
+                        <textarea 
+                          rows={2}
+                          value={guide.excerpt} 
+                          onChange={e => updateArrayItem('areaGuides', null, index, 'excerpt', e.target.value)}
+                          className={styles.textarea}
+                        />
+                      </div>
+
+                      <div className={styles.formGroup}>
+                        <label className={styles.label}>Content</label>
+                        <Editor
+                          value={guide.content}
+                          onChange={e => updateArrayItem('areaGuides', null, index, 'content', e.target.value)}
+                          containerProps={{ style: { height: '300px', overflowY: 'auto', backgroundColor: 'white', border: '1px solid #e5e7eb', borderRadius: '4px' } }}
+                        />
+                      </div>
+                    </div>
+                    )}
+                  </div>
+                ))}
               </div>
             </div>
           )}

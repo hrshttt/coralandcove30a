@@ -1,16 +1,15 @@
-import Image from 'next/image';
+import ParallaxImage from '@/components/ParallaxImage/ParallaxImage';
 import styles from './PropertiesHero.module.css';
 
 export default function PropertiesHero() {
   return (
     <section className={styles.hero}>
       <div className={styles.background}>
-        <Image
+        <ParallaxImage
           src="/images/properties_hero_aerial.png"
           alt="Aerial view of the 30A coastline at golden hour"
-          fill
-          priority
-          style={{ objectFit: 'cover', objectPosition: 'center' }}
+          priority={true}
+          containerClassName={styles.background}
           className={styles.image}
         />
         <div className={styles.overlay}></div>

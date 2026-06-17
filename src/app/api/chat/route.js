@@ -1,11 +1,11 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { getProperties } from '@/lib/properties';
 import { getCmsData } from '@/lib/cms';
-import { areaGuidePosts } from '@/lib/areaGuide';
+import { getAreaGuidePosts } from '@/lib/areaGuide';
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
-const BASE_SYSTEM_INSTRUCTION = "You are a warm, professional assistant for Coral & Cove 30A, a luxury vacation rental company along Highway 30A, Florida. Answer questions about properties, booking process, local experiences, and the 30A area. Keep answers concise and helpful. If you don't know something specific, ask them to contact us at hello@coralandcove30a.com";
+const BASE_SYSTEM_INSTRUCTION = "You are a warm, professional assistant for Coral & Cove 30A, a luxury vacation rental company along Highway 30A, Florida. Answer questions about properties, booking process, local experiences, and the 30A area. Keep answers concise and helpful. If you don't know something specific, ask them to contact us at hello@coralandcove30a.com. IMPORTANT FORMATTING RULE: You MUST output ONLY plain text. Do NOT use any Markdown formatting whatsoever (no asterisks, no bold, no italics, no bullet points, no lists, no headers). Just write normal paragraphs separated by empty lines.";
 
 export async function POST(req) {
   if (!process.env.GEMINI_API_KEY) {
@@ -21,6 +21,7 @@ export async function POST(req) {
     // Fetch site data for context
     const properties = await getProperties();
     const cmsData = getCmsData();
+    const areaGuidePosts = getAreaGuidePosts();
     
     // Build context string to inject
     const contextString = `
@@ -43,6 +44,14 @@ ${JSON.stringify(properties.map(p => ({
   price: p.price, 
   amenities: p.amenities?.map(a => a.label) 
 })))}
+
+4. FAQS AND POLICIES:
+- Check-in: 5:00 PM. Check-out: 10:00 AM. Free early check-in if ready. Late check-out free except Point Preserve Inn ($50 fee).
+- Emergency contact: Thomas (Owner) at (850) 714-7045 or Thomas@CoralandCove30A.com.
+- Booking direct on website saves hidden markups from third-party sites.
+- Payment: 50% deposit at booking. No security deposit needed. Major credit cards accepted.
+- Homes are fully stocked with premium linens, towels, kitchen kits, laundry pods, toiletries.
+- No smoking, no unauthorized parties. Pets only in designated pet-friendly homes with prior approval.
 
 Please use this real data to answer the user's questions accurately.
 `;
