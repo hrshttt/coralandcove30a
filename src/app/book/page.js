@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-import Head from 'next/head';
 import Script from 'next/script';
 
-export default function BookPage() {
+function BookContent() {
   const searchParams = useSearchParams();
   const arrival = searchParams.get('arrival') || '';
   const departure = searchParams.get('departure') || '';
@@ -41,7 +40,7 @@ export default function BookPage() {
               <div style={{ padding: '4rem', textAlign: 'center', backgroundColor: '#f9f9f9', borderRadius: '8px', border: '1px dashed #ccc' }}>
                 <h3 style={{ marginBottom: '1rem' }}>OwnerRez Widget Pending</h3>
                 <p style={{ color: '#666' }}>
-                  Please set <code>NEXT_PUBLIC_OWNERREZ_WIDGET_ID</code> in your <code>.env.local</code> file and configure your property settings to see the live booking widget here.
+                  Please set <code>NEXT_PUBLIC_OWNERREZ_WIDGET_ID</code> in your <code>.env</code> file and configure your property settings to see the live booking widget here.
                 </p>
                 <div style={{ marginTop: '2rem', fontSize: '0.9rem', color: '#888' }}>
                   <strong>Received Parameters:</strong><br/>
@@ -72,5 +71,13 @@ export default function BookPage() {
         />
       )}
     </>
+  );
+}
+
+export default function BookPage() {
+  return (
+    <Suspense fallback={<div style={{ paddingTop: '150px', textAlign: 'center', minHeight: '80vh', backgroundColor: 'var(--color-background)' }}>Loading booking details...</div>}>
+      <BookContent />
+    </Suspense>
   );
 }
