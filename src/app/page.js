@@ -6,16 +6,20 @@ import Experiences from '@/components/Experiences/Experiences';
 import Testimonials from '@/components/Testimonials/Testimonials';
 import ContactSection from '@/components/ContactSection/ContactSection';
 
-export default function Home() {
+import { getCmsData } from '@/lib/cms';
+
+export default async function Home() {
+  const cmsData = getCmsData() || {};
+
   return (
     <main>
-      <HeroSection />
       <OfferBanner />
-      <IntroSection />
+      <HeroSection content={cmsData.hero} />
+      <IntroSection content={cmsData.intro} />
       <FeaturedProperties />
-      <Experiences />
-      <Testimonials />
-      <ContactSection />
+      <Experiences content={cmsData.experiences} />
+      <Testimonials content={cmsData.testimonials} />
+      <ContactSection content={cmsData.contact} />
     </main>
   );
 }

@@ -13,19 +13,38 @@ export default function Navbar() {
   const [dotStyle, setDotStyle] = useState({ left: 0, opacity: 0 });
   const pathname = usePathname();
   const navListRef = useRef(null);
+  const lastScrollY = useRef(0);
+  const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
+      const currentScrollY = window.scrollY;
+      const alwaysScrolledPages = ['/booking-policies', '/owner-services', '/privacy-policy'];
+      const isAlwaysScrolled = alwaysScrolledPages.includes(pathname);
+      const threshold = pathname === '/' ? 40 : (isAlwaysScrolled ? -1 : 0);
+      
+      if (currentScrollY > threshold) {
         setScrolled(true);
       } else {
         setScrolled(false);
       }
+      
+      // Hide on scroll down, show on scroll up
+      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
+        setHidden(true);
+      } else {
+        setHidden(false);
+      }
+      
+      lastScrollY.current = currentScrollY;
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
+    // Trigger once on mount to handle initial state if page is refreshed while scrolled
+    handleScroll();
+    
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [pathname]);
 
   // Update the dot position whenever the pathname changes
   useEffect(() => {
@@ -46,8 +65,13 @@ export default function Navbar() {
     return () => clearTimeout(timer);
   }, [pathname]);
 
+  const isPropertyDetailsPage = pathname.startsWith('/properties/') && pathname !== '/properties';
+  if (isPropertyDetailsPage) {
+    return null;
+  }
+
   return (
-    <header className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}>
+    <header className={`${styles.header} ${pathname === '/' ? styles.homeLayout : ''} ${scrolled ? styles.scrolled : ''} ${hidden ? styles.hidden : ''}`}>
       <div className={styles.container}>
         <div className={styles.logo}>
           <Link href="/">

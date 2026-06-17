@@ -1,32 +1,25 @@
 .banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 2000;
   background-color: var(--color-primary);
   color: var(--color-secondary);
-  padding: 0.8rem 0;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
-  border-bottom: 1px solid rgba(201, 169, 126, 0.2);
+  border-bottom: 1px solid rgba(201, 169, 126, 0.15);
 }
 
-.ticker {
-  width: 100%;
-  overflow: hidden;
-}
-
-.tickerContent {
-  display: inline-flex;
-  white-space: nowrap;
-  animation: ticker 30s linear infinite;
-}
-
-.tickerContent span {
+.offerText {
   font-family: var(--font-body);
   font-size: 0.75rem;
   letter-spacing: 3px;
   text-transform: uppercase;
-  padding: 0 3rem;
   font-weight: 500;
-}
-
-@keyframes ticker {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  text-align: center;
+  width: 100%;
 }

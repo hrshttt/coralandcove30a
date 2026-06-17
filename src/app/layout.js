@@ -18,18 +18,15 @@ export const metadata = {
   description: "Experience the ultimate luxury coastal vacation rentals along 30A. Book direct and save.",
 };
 
-import Navbar from '@/components/Navbar/Navbar';
-import Footer from '@/components/Footer/Footer';
-import ChatWidget from '@/components/ChatWidget/ChatWidget';
+import GlobalUI from '@/components/GlobalUI/GlobalUI';
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
       <body>
-        <Navbar />
-        {children}
-        <ChatWidget />
-        <Footer />
+        <GlobalUI>
+          {children}
+        </GlobalUI>
       </body>
     </html>
   );

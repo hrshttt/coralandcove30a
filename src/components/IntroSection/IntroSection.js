@@ -1,38 +1,48 @@
+"use client";
+
+import { useRef } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import styles from './IntroSection.module.css';
 import FadeIn from '@/components/FadeIn/FadeIn';
 
-export default function IntroSection() {
+export default function IntroSection({ content }) {
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"]
+  });
+
+  const y = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
+
   return (
-    <section id="about" className={styles.intro}>
+    <section id="about" className={styles.intro} ref={ref}>
       <div className="container">
         <div className={styles.containerInner}>
           <div className={styles.textContent}>
             <FadeIn maskReveal delay={0.1}>
-              <p className={styles.eyebrow}>ABOUT CORAL & COVE</p>
+              <p className={styles.eyebrow}>{content?.eyebrow}</p>
             </FadeIn>
             <FadeIn maskReveal delay={0.2}>
-              <h2 className={styles.title}>A New Standard of Coastal Living</h2>
+              <h2 className={styles.title}>{content?.title}</h2>
             </FadeIn>
             <FadeIn delay={0.3}>
               <div className={styles.divider}></div>
-              <p className={styles.description}>
-                Experience the unmatched beauty of Florida's Emerald Coast. 
-                Our meticulously curated portfolio of luxury vacation homes along Highway 30A 
-                offers a sanctuary where pristine white sands meet emerald waters.
+              <p className={`${styles.description} ${styles.dropCap}`}>
+                {content?.description1}
               </p>
               <p className={styles.description}>
-                From seamless booking to personalized concierge services, we ensure every moment 
-                of your stay is effortlessly extraordinary.
+                {content?.description2}
               </p>
-              <button className={styles.btnGhost}>Discover Our Story &rarr;</button>
+              <button className={styles.btnGhost}>{content?.buttonText}</button>
             </FadeIn>
           </div>
-          
+
           <FadeIn delay={0.3} className={styles.imageContent}>
-            <div className={styles.verticalText}>THE 30A LIFESTYLE</div>
+            <div className={styles.verticalText}>{content?.verticalText}</div>
             <div className={styles.imageWrapperMain}>
-              <img
-                src="https://images.unsplash.com/photo-1499793983690-e29da59ef1c2?auto=format&fit=crop&q=80&w=1200"
+              <motion.img
+                style={{ y, scale: 1.3 }}
+                src="/images/about.jpeg"
                 alt="Luxury living room in a beach house"
                 className={styles.image}
               />

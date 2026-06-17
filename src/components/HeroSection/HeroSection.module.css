@@ -6,6 +6,7 @@
   align-items: center;
   justify-content: center;
   z-index: 10;
+  overflow: hidden;
 }
 
 .background {
@@ -31,9 +32,9 @@
   height: 100%;
   background: linear-gradient(
     to bottom,
-    rgba(26, 54, 54, 0.5) 0%,
-    rgba(26, 54, 54, 0.2) 50%,
-    rgba(26, 54, 54, 0.7) 100%
+    rgba(31, 46, 40, 0.3) 0%,
+    rgba(31, 46, 40, 0.1) 40%,
+    rgba(31, 46, 40, 0.7) 100%
   );
   z-index: 2;
 }
@@ -47,7 +48,6 @@
   justify-content: center;
   text-align: center;
   color: #fff;
-  padding-bottom: 8rem;
   width: 100%;
 }
 
@@ -67,13 +67,13 @@
 
 .title {
   font-family: var(--font-heading);
-  font-size: clamp(3.5rem, 8vw, 8rem);
+  font-size: clamp(4rem, 10vw, 10rem);
   font-weight: 300;
   margin-bottom: 1.5rem;
-  line-height: 0.9;
-  letter-spacing: -0.02em;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
   color: #ffffff;
-  text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
 }
 
 .ampersand {
@@ -129,8 +129,57 @@
   font-weight: 600;
 }
 
+.ctaContainer {
+  margin-top: 3.5rem;
+  display: flex;
+  justify-content: center;
+}
 
+.ctaButton {
+  padding: 1.2rem 3rem;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  background-color: var(--color-secondary);
+  color: var(--color-primary);
+  border: 1px solid transparent;
+  border-radius: 50px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-medium);
+  font-family: var(--font-body);
+  position: relative;
+  overflow: hidden;
+}
 
+.ctaButton::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-primary);
+  transform: translateY(100%);
+  transition: transform var(--transition-normal);
+  z-index: 1;
+  border-radius: 50px;
+}
+
+.ctaButton span {
+  position: relative;
+  z-index: 2;
+}
+
+.ctaButton:hover::before {
+  transform: translateY(0);
+}
+
+.ctaButton:hover {
+  color: #fff;
+}
 @keyframes subtleZoom {
   0% { transform: scale(1); }
   100% { transform: scale(1.1); }
@@ -160,7 +209,7 @@
     justify-content: center;
   }
   .title {
-    font-size: clamp(3rem, 12vw, 4rem);
+    font-size: clamp(3rem, 12vw, 4.5rem);
   }
   .eyebrow {
     font-size: 0.6rem;
@@ -178,4 +227,55 @@
   .ratingBadge span {
     font-size: 0.75rem;
   }
+  .scrollIndicator {
+    bottom: 1.5rem;
+  }
+}
+
+.scrollIndicator {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  animation: fadeUp 1.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  opacity: 0;
+  animation-delay: 1.2s;
+}
+
+.scrollIndicator span {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  color: #fff;
+  opacity: 0.7;
+}
+
+.scrollLineWrapper {
+  width: 1px;
+  height: 60px;
+  background-color: rgba(255, 255, 255, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.scrollLine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 30%;
+  background-color: var(--color-secondary);
+  animation: scrollDrop 2s infinite ease-in-out;
+}
+
+@keyframes scrollDrop {
+  0% { transform: translateY(-150%); }
+  50% { transform: translateY(350%); }
+  100% { transform: translateY(350%); }
 }

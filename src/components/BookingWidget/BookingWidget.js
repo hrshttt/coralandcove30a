@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { format } from 'date-fns';
 import { DayPicker } from 'react-day-picker';
+import { useRouter } from 'next/navigation';
 import 'react-day-picker/dist/style.css';
 import { ChevronDown, Calendar, Users, Plus, Minus, X } from 'lucide-react';
 import styles from './BookingWidget.module.css';
@@ -14,8 +15,10 @@ export default function BookingWidget() {
   const [activePopover, setActivePopover] = useState(null); // 'arrival', 'departure', 'guests'
   const [mobileSheetOpen, setMobileSheetOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [bookedDates, setBookedDates] = useState([]);
   
   const widgetRef = useRef(null);
+  const router = useRouter();
 
   // Detect mobile
   useEffect(() => {
@@ -23,6 +26,27 @@ export default function BookingWidget() {
     checkMobile();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Fetch OwnerRez Availability
+  useEffect(() => {
+    async function fetchAvailability() {
+      try {
+        const res = await fetch('/api/availability');
+        const data = await res.json();
+        if (data.success && data.bookedDates) {
+          // Convert string dates to Date objects for react-day-picker
+          const formattedDates = data.bookedDates.map(range => ({
+            from: new Date(range.from),
+            to: new Date(range.to)
+          }));
+          setBookedDates(formattedDates);
+        }
+      } catch (error) {
+        console.error('Failed to fetch availability:', error);
+      }
+    }
+    fetchAvailability();
   }, []);
 
   // Close popover when clicking outside
@@ -52,9 +76,16 @@ export default function BookingWidget() {
   }, [mobileSheetOpen]);
 
   const handleSearch = () => {
-    alert(`Searching availability:\\nCheck-in: ${checkIn ? format(checkIn, 'PP') : 'Any'}\\nCheck-out: ${checkOut ? format(checkOut, 'PP') : 'Any'}\\nAdults: ${guests.adults}, Children: ${guests.children}`);
+    const params = new URLSearchParams();
+    if (checkIn) params.append('arrival', format(checkIn, 'yyyy-MM-dd'));
+    if (checkOut) params.append('departure', format(checkOut, 'yyyy-MM-dd'));
+    params.append('adults', guests.adults.toString());
+    params.append('children', guests.children.toString());
+    
     setActivePopover(null);
     setMobileSheetOpen(false);
+    
+    router.push(`/book?${params.toString()}`);
   };
 
   const updateGuests = (type, operation) => {
@@ -71,6 +102,77 @@ export default function BookingWidget() {
   };
 
   const totalGuests = guests.adults + guests.children;
+
+  // Calculate disabled dates for Arrival
+  // You can arrive on the same day someone else departs, so we don't disable the 'to' date.
+  const disabledForArrival = [
+    { before: new Date() },
+    ...bookedDates.map(range => {
+      const toDate = new Date(range.to);
+      toDate.setDate(toDate.getDate() - 1);
+      return { from: range.from, to: toDate };
+    })
+  ];
+
+  // Calculate disabled dates for Departure
+  // If checkIn is selected, prevent selecting a departure date AFTER the next booking starts.
+  let nextBookingStart = null;
+  if (checkIn) {
+    for (const b of bookedDates) {
+      if (b.from > checkIn) {
+        if (!nextBookingStart || b.from < nextBookingStart) {
+          nextBookingStart = b.from;
+        }
+      }
+    }
+  }
+
+  const disabledForDeparture = [
+    { before: checkIn || new Date() }
+  ];
+
+  if (nextBookingStart) {
+    disabledForDeparture.push({ after: nextBookingStart });
+  } else {
+    // Fallback if checkIn isn't selected
+    disabledForDeparture.push(
+      ...bookedDates.map(range => {
+        const fromDate = new Date(range.from);
+        fromDate.setDate(fromDate.getDate() + 1);
+        return { from: fromDate, to: range.to };
+      })
+    );
+  }
+
+  // Modifiers for visual split-cell styling
+  const bookedMiddleDates = bookedDates
+    .filter(range => {
+      const fromDate = new Date(range.from);
+      const toDate = new Date(range.to);
+      return (toDate - fromDate) > 86400000; // Only if stay > 1 night
+    })
+    .map(range => {
+      const fromDate = new Date(range.from);
+      fromDate.setDate(fromDate.getDate() + 1);
+      const toDate = new Date(range.to);
+      toDate.setDate(toDate.getDate() - 1);
+      return { from: fromDate, to: toDate };
+    });
+
+  const checkinDates = bookedDates.map(range => new Date(range.from));
+  const checkoutDates = bookedDates.map(range => new Date(range.to));
+
+  const modifiers = {
+    bookedMiddle: bookedMiddleDates,
+    checkinDay: checkinDates,
+    checkoutDay: checkoutDates,
+  };
+
+  const modifiersClassNames = {
+    bookedMiddle: styles.bookedMiddle,
+    checkinDay: styles.checkinDay,
+    checkoutDay: styles.checkoutDay,
+  };
 
   // ──── MOBILE: Single CTA button + full-screen bottom sheet ────
   if (isMobile) {
@@ -119,7 +221,9 @@ export default function BookingWidget() {
                           setActivePopover('departure');
                           if (checkOut && date > checkOut) setCheckOut(undefined);
                         }}
-                        disabled={{ before: new Date() }}
+                        disabled={disabledForArrival}
+                        modifiers={modifiers}
+                        modifiersClassNames={modifiersClassNames}
                         className={styles.calendar}
                       />
                     </div>
@@ -145,7 +249,9 @@ export default function BookingWidget() {
                           setCheckOut(date);
                           setActivePopover('guests');
                         }}
-                        disabled={{ before: checkIn || new Date() }}
+                        disabled={disabledForDeparture}
+                        modifiers={modifiers}
+                        modifiersClassNames={modifiersClassNames}
                         className={styles.calendar}
                       />
                     </div>
@@ -245,7 +351,9 @@ export default function BookingWidget() {
                   setActivePopover('departure');
                   if (checkOut && date > checkOut) setCheckOut(undefined);
                 }}
-                disabled={{ before: new Date() }}
+                disabled={disabledForArrival}
+                modifiers={modifiers}
+                modifiersClassNames={modifiersClassNames}
                 className={styles.calendar}
               />
             </div>
@@ -274,7 +382,9 @@ export default function BookingWidget() {
                   setCheckOut(date);
                   setActivePopover(null);
                 }}
-                disabled={{ before: checkIn || new Date() }}
+                disabled={disabledForDeparture}
+                modifiers={modifiers}
+                modifiersClassNames={modifiersClassNames}
                 className={styles.calendar}
               />
             </div>

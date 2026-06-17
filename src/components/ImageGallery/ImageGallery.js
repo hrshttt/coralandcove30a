@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import { motion, AnimatePresence } from 'framer-motion';
 import styles from './ImageGallery.module.css';
 
 export default function ImageGallery({ images }) {
@@ -22,15 +23,19 @@ export default function ImageGallery({ images }) {
   return (
     <div className={styles.gallery}>
       {/* Main Image */}
-      <div className={styles.mainImage}>
-        <Image
-          src={images[activeIndex].src}
-          alt={images[activeIndex].alt}
-          fill
-          priority={activeIndex === 0}
-          style={{ objectFit: 'cover' }}
-          className={styles.image}
-        />
+      <div className={styles.mainImageContainer}>
+        <AnimatePresence mode="wait">
+          <motion.img
+            key={activeIndex}
+            src={images[activeIndex].src}
+            alt={images[activeIndex].alt}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className={styles.mainImage}
+          />
+        </AnimatePresence>
 
         {/* Navigation Arrows */}
         <button

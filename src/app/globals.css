@@ -14,7 +14,7 @@
 
   /* Spacing & Layout */
   --max-width: 1440px; /* Wider for luxury feel */
-  --section-padding: 8rem 2rem; /* More breathing room */
+  --section-padding: 10rem 2rem; /* Luxurious breathing room */
   --border-radius: 24px; /* Soft, modern curves */
   --border-radius-lg: 32px; /* Large, elegant curves */
 
@@ -178,4 +178,13 @@ button {
 @keyframes revealLine {
   from { width: 0; }
   to { width: 100%; }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --section-padding: 6rem 1.25rem;
+  }
+  .container {
+    padding: 0 1.25rem;
+  }
 }

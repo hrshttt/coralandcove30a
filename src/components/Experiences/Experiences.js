@@ -2,35 +2,16 @@ import Image from 'next/image';
 import styles from './Experiences.module.css';
 import FadeIn from '@/components/FadeIn/FadeIn';
 
-export default function Experiences() {
-  const experiences = [
-    {
-      id: 1,
-      title: "Coastal Biking",
-      image: "/images/biking_couple_lifestyle_1781267846839.png",
-      span: "large"
-    },
-    {
-      id: 2,
-      title: "Family Beach Days",
-      image: "/images/family_beach_lifestyle_1781267833225.png",
-      span: "small"
-    },
-    {
-      id: 3,
-      title: "Luxury Interiors",
-      image: "/images/luxury_interior_living_1781267821857.png",
-      span: "small"
-    }
-  ];
+export default function Experiences({ content }) {
+  const experiences = content?.items || [];
 
   return (
     <section id="experiences" className={styles.experiences}>
       <div className="container">
         <FadeIn>
           <div className={styles.header}>
-            <p className={styles.eyebrow}>The 30A Lifestyle</p>
-            <h2 className={styles.title}>Curated Experiences &amp; Service</h2>
+            <p className={styles.eyebrow}>{content?.eyebrow}</p>
+            <h2 className={styles.title}>{content?.title}</h2>
           </div>
         </FadeIn>
 

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import styles from './point-preserve.module.css';
 import ImageGallery from '@/components/ImageGallery/ImageGallery';
 import FadeIn from '@/components/FadeIn/FadeIn';
+import BookingWidget from '@/components/BookingWidget/BookingWidget';
 
 export const metadata = {
   title: 'Point Preserve Inn | Coral & Cove 30A',
@@ -10,13 +11,10 @@ export const metadata = {
 };
 
 export default function PointPreservePage() {
-  const galleryImages = [
-    { src: '/images/pp_hero.png', alt: 'Point Preserve Inn exterior at twilight' },
-    { src: '/images/pp_interior_2br.png', alt: 'Bright contemporary 2-bedroom condo living room' },
-    { src: '/images/pp_interior_3br.png', alt: 'Spacious luxury 3-bedroom sanctuary with forest views' },
-    { src: '/images/pp_events.png', alt: 'Beautifully secluded outdoor courtyard event setting' },
-    { src: '/images/pp_nature.png', alt: 'Scenic coastal biking and hiking trail through a coastal forest' },
-  ];
+  const galleryImages = Array.from({ length: 20 }, (_, i) => ({
+    src: `/pointpreserve/${i + 1}.jpg`,
+    alt: `Point Preserve Inn view ${i + 1}`
+  }));
 
   return (
     <main>
@@ -24,7 +22,7 @@ export default function PointPreservePage() {
       <section className={styles.hero}>
         <div className={styles.heroBackground}>
           <Image
-            src="/images/pp_hero.png"
+            src="/pointpreserve/1.jpg"
             alt="Point Preserve Inn Condominium Community"
             fill
             sizes="100vw"
@@ -40,6 +38,7 @@ export default function PointPreservePage() {
             Experience the Tranquility of a Secluded Woodland Retreat.
           </p>
         </div>
+        <BookingWidget />
       </section>
 
       {/* Intro Section */}
@@ -48,14 +47,14 @@ export default function PointPreservePage() {
           <FadeIn>
             <div className={styles.sectionHeader}>
               <span className="accent-text" style={{ display: 'block', marginBottom: '1rem' }}>We have 24 New & Beautiful Condos</span>
-            <h2>A Perfect Balance of Seclusion and Convenience</h2>
-            <p>
-              Welcome to Point Preserve, a serene and thoughtfully designed condominium community just minutes from the sugar-white sands and iconic beach towns of 30A. Surrounded by peaceful forest and coastal nature, these modern 2-bedroom and 3-bedroom condos offer a perfect balance of seclusion and convenience — tucked away from the congestion yet a short drive to Blue Mountain Beach, Seaside, WaterColor, Grayton Beach, Gulf Place, and local favorites like The Bay and North Beach Social.
-            </p>
-            <p>
-              Each rental is newly built and styled with clean, contemporary finishes, premium linens, and fully equipped kitchens — ideal for families, couples, and groups seeking comfort and quality. Whether you choose a cozy 2-bedroom layout perfect for four guests or a spacious 3-bedroom sanctuary that sleeps up to six, you’ll enjoy thoughtful design and peaceful forest views that set the tone for relaxation on the Emerald Coast.
-            </p>
-          </div>
+              <h2>A Perfect Balance of Seclusion and Convenience</h2>
+              <p>
+                Tucked against a quiet coastal forest, Point Preserve offers 24 brand-new, architecturally striking residences just minutes from the energy of 30A. It’s an enclave designed for those who want immediate access to Blue Mountain Beach and Seaside, but demand a private, quiet retreat at the end of the day.
+              </p>
+              <p>
+                Inside, expect sharp contemporary finishes, premium linens, and uncompromising comfort. Whether you choose a cozy 2-bedroom layout perfect for four guests or a spacious 3-bedroom sanctuary that sleeps up to six, you’ll enjoy thoughtful design and peaceful forest views that set the tone for relaxation.
+              </p>
+            </div>
           </FadeIn>
         </div>
       </section>
@@ -78,17 +77,17 @@ export default function PointPreservePage() {
         <div className="container">
           <div className={styles.infoGrid}>
             <FadeIn delay={0.1} className={styles.infoContent}>
-              <h3>Effortless Exploration</h3>
+              <h3>Immediate Access, Total Privacy</h3>
               <p>
-                Set within a gated community just minutes from scenic biking and hiking trails, boutique shopping, and exceptional dining, Point Preserve makes it effortless to explore the best of Santa Rosa Beach. 
+                Located inside a private gated community, you are minutes from 30A's best biking trails, independent boutiques, and dining.
               </p>
               <p>
-                After beach days or local adventures, return to an environment crafted for rest, privacy, and ease — a true boutique coastal escape that feels like your own slice of 30A.
+                After a day in the sun, retreat to an environment engineered for quiet and rest—a true boutique coastal escape that feels like your own slice of 30A.
               </p>
             </FadeIn>
             <FadeIn delay={0.3} className={styles.infoImageWrapper}>
               <Image
-                src="/images/pp_nature.png"
+                src="/pointpreserve/1.jpg"
                 alt="Scenic 30A Biking Trail"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
@@ -104,17 +103,17 @@ export default function PointPreservePage() {
         <div className="container">
           <div className={styles.infoGrid} style={{ direction: 'rtl' }}>
             <FadeIn delay={0.1} className={styles.infoContent} style={{ direction: 'ltr' }}>
-              <h3>Curated Celebrations</h3>
+              <h3>Private Gatherings</h3>
               <p>
-                Point Preserve offers a beautifully secluded outdoor setting ideal for intimate weddings, rehearsal dinners, welcome parties, corporate retreats, and curated celebrations. 
+                The rear grounds border a dense natural forest, providing a highly private, lush backdrop for intimate weddings, rehearsal dinners, and corporate retreats.
               </p>
               <p>
-                Surrounded by natural greenery and peaceful forest views, our private rear grounds provide a serene backdrop for unforgettable moments on 30A.
+                Surrounded by natural greenery, our outdoor spaces provide a serene and secluded setting for unforgettable moments on 30A.
               </p>
             </FadeIn>
             <FadeIn delay={0.3} className={styles.infoImageWrapper} style={{ direction: 'ltr' }}>
               <Image
-                src="/images/pp_events.png"
+                src="/pointpreserve/2.jpg"
                 alt="Outdoor event setting at twilight"
                 fill
                 sizes="(max-width: 768px) 100vw, 50vw"
@@ -129,7 +128,7 @@ export default function PointPreservePage() {
       <section className={styles.ctaSection}>
         <div className={styles.ctaBackground}>
           <Image
-            src="/images/pp_cta_bg.png"
+            src="/pointpreserve/4.jpg"
             alt="Cozy twilight firepit on a condo balcony"
             fill
             sizes="100vw"
@@ -139,17 +138,17 @@ export default function PointPreservePage() {
         <div className={styles.ctaOverlay}></div>
         <FadeIn>
           <div className={`container ${styles.ctaContent}`}>
-            <h2>Ready for Your Woodland Retreat?</h2>
-          <p>
-            Choose from our collection of modern 2-bedroom and 3-bedroom sanctuary condos.
-          </p>
-          <a href="https://pointpreserve.com/lodging" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ backgroundColor: 'var(--color-secondary)', color: 'var(--color-primary)' }}>
-            <span>Reserve Your Stay Here</span>
+            <h2>Secure Your Residence at Point Preserve.</h2>
+            <p>
+              Choose from our collection of modern 2-bedroom and 3-bedroom sanctuary condos.
+            </p>
+            <a href="https://pointpreserve.com/lodging" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ backgroundColor: 'var(--color-secondary)', color: 'var(--color-primary)' }}>
+              <span>Reserve Your Stay Here</span>
             </a>
           </div>
         </FadeIn>
       </section>
-      
-      </main>
+
+    </main>
   );
 }

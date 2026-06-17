@@ -1,0 +1,71 @@
+{
+  "hero": {
+    "eyebrow": "Elevating the 30A Experience",
+    "title": "Coral",
+    "ampersand": "&",
+    "title2": "Cove",
+    "subtitle": "Private Coastal Residences"
+  },
+  "intro": {
+    "eyebrow": "ABOUT CORAL & COVE",
+    "title": "A Higher Standard of Hospitality",
+    "description1": "We offer an exclusive collection of private homes on Highway 30A, pairing the architectural character of a coastal residence with the uncompromising service of a boutique hotel.",
+    "description2": "Your time here is valuable; we handle the details so you don't have to.",
+    "buttonText": "View the Collection →",
+    "verticalText": "THE 30A LIFESTYLE"
+  },
+  "experiences": {
+    "eyebrow": "Beyond the Stay",
+    "title": "Exceptional Service & Access",
+    "items": [
+      {
+        "id": 1,
+        "title": "Coastal Biking",
+        "image": "/images/biking_couple_lifestyle_1781267846839.png",
+        "span": "large"
+      },
+      {
+        "id": 2,
+        "title": "Family Beach Days",
+        "image": "/images/family_beach_lifestyle_1781267833225.png",
+        "span": "small"
+      },
+      {
+        "id": 3,
+        "title": "Luxury Interiors",
+        "image": "/images/luxury_interior_living_v2.png",
+        "span": "small"
+      }
+    ]
+  },
+  "testimonials": {
+    "title": "Hear From Our Guests",
+    "reviews": [
+      {
+        "id": 1,
+        "text": "Absolutely stunning property. The attention to detail and level of service provided by Coral & Cove is unmatched. We will definitely be returning next year.",
+        "author": "Sarah Jenkins",
+        "rating": 5
+      },
+      {
+        "id": 2,
+        "text": "From booking to checkout, everything was seamless. The house was spotless, beautifully decorated, and exactly as pictured. A true 5-star experience on 30A.",
+        "author": "Michael Chen",
+        "rating": 5
+      },
+      {
+        "id": 3,
+        "text": "We've stayed at many rentals along the coast, but this was by far the best. The concierge service helped us plan the perfect family vacation.",
+        "author": "The Thompson Family",
+        "rating": 5
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "Speak with our Team",
+    "title": "Let's Plan Your Escape",
+    "description": "Have a specific date in mind or need tailored recommendations? Our local team is available to help you secure the perfect residence.",
+    "email": "hello@coralandcove30a.com",
+    "phone": "+1 (800) 555-0199"
+  }
+}

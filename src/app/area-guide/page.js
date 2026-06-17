@@ -17,8 +17,8 @@ export default function AreaGuidePage() {
       <section className={styles.hero}>
         <div className={styles.heroBackground}>
           <Image
-            src="/images/biking_couple_lifestyle_1781267846839.png"
-            alt="Couple biking on 30A"
+            src="/images/guideMain.jpg"
+            alt="30A Area Guide"
             fill
             sizes="100vw"
             priority

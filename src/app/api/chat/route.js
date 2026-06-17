@@ -1,8 +1,11 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import { getProperties } from '@/lib/properties';
+import { getCmsData } from '@/lib/cms';
+import { areaGuidePosts } from '@/lib/areaGuide';
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
-const SYSTEM_INSTRUCTION = "You are a warm, professional assistant for Coral & Cove 30A, a luxury vacation rental company along Highway 30A, Florida. Answer questions about properties, booking process, local experiences, and the 30A area. Keep answers concise and helpful. If you don't know something specific, ask them to contact us at hello@coralandcove30a.com";
+const BASE_SYSTEM_INSTRUCTION = "You are a warm, professional assistant for Coral & Cove 30A, a luxury vacation rental company along Highway 30A, Florida. Answer questions about properties, booking process, local experiences, and the 30A area. Keep answers concise and helpful. If you don't know something specific, ask them to contact us at hello@coralandcove30a.com";
 
 export async function POST(req) {
   if (!process.env.GEMINI_API_KEY) {
@@ -15,10 +18,37 @@ export async function POST(req) {
   try {
     const { messages } = await req.json();
 
-    // The frontend sends messages in the format expected by Gemini: 
-    // [{role: 'user' | 'model', parts: [{text: '...'}]}]
+    // Fetch site data for context
+    const properties = await getProperties();
+    const cmsData = getCmsData();
+    
+    // Build context string to inject
+    const contextString = `
+AVAILABLE CONTEXT ABOUT CORAL & COVE:
+
+1. GENERAL INFO / LANDING PAGE CMS:
+${JSON.stringify(cmsData)}
+
+2. AREA GUIDE & LOCAL ATTRACTIONS:
+${JSON.stringify(areaGuidePosts.map(p => ({ title: p.title, excerpt: p.excerpt, content: p.content })))}
+
+3. AVAILABLE PROPERTIES:
+${JSON.stringify(properties.map(p => ({ 
+  name: p.name, 
+  location: p.location, 
+  beds: p.beds, 
+  baths: p.baths, 
+  guests: p.guests, 
+  description: p.description, 
+  price: p.price, 
+  amenities: p.amenities?.map(a => a.label) 
+})))}
+
+Please use this real data to answer the user's questions accurately.
+`;
+
+    // The frontend sends messages in the format expected by Gemini
     let history = messages.slice(0, -1);
-    // Gemini requires the history to start with a 'user' message.
     if (history.length > 0 && history[0].role === 'model') {
       history = history.slice(1);
     }
@@ -26,7 +56,7 @@ export async function POST(req) {
 
     const model = genAI.getGenerativeModel({
       model: 'gemini-3.1-flash-lite',
-      systemInstruction: SYSTEM_INSTRUCTION,
+      systemInstruction: BASE_SYSTEM_INSTRUCTION + "\n\n" + contextString,
     });
 
     const chat = model.startChat({

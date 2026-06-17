@@ -117,6 +117,42 @@
   font-family: var(--font-body);
 }
 
+/* Ensure disabled dates don't just fade away so our backgrounds are visible */
+.calendar button:disabled,
+.calendar :global(.rdp-day_disabled) {
+  opacity: 1;
+  cursor: not-allowed;
+}
+
+/* Fully booked middle dates */
+.bookedMiddle {
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.bookedMiddle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 15%;
+  width: 70%;
+  height: 1.5px;
+  background-color: currentColor;
+  transform: translateY(-50%) rotate(-45deg);
+  opacity: 0.4;
+}
+
+/* Checkout day: morning is blocked, afternoon is free */
+/* Diagonal split: top-left greyed out, bottom-right clean */
+.checkoutDay {
+  background: linear-gradient(135deg, rgba(0,0,0,0.12) 50%, transparent 50%);
+}
+
+/* Checkin day: morning is free, afternoon is blocked */
+/* Diagonal split: top-left clean, bottom-right greyed out */
+.checkinDay {
+  background: linear-gradient(135deg, transparent 50%, rgba(0,0,0,0.12) 50%);
+}
+
 /* Guest Popover */
 .guestsPopover {
   min-width: 340px;

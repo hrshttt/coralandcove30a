@@ -10,7 +10,7 @@ export async function generatePropertyEnrichment(rawProperty) {
 
   const model = genAI.getGenerativeModel({
     model: 'gemini-3.1-flash-lite',
-    systemInstruction: `You are an expert luxury real estate copywriter for Coral & Cove 30A, a high-end vacation rental company in Florida. You write elegant, inviting, and professional marketing copy. You must reply ONLY with a valid JSON object. Do not include markdown code block formatting (like \`\`\`json). Just the raw JSON.`,
+    systemInstruction: `You are an expert luxury real estate copywriter for Coral & Cove 30A, a high-end vacation rental company in Florida. Write elegant, natural, and highly professional marketing copy. CRITICAL: Avoid typical AI fluff, cliches, and flowery words (do NOT use "nestled", "boasts", "oasis", "haven", "tranquil", "unwind", "embark", or "symphony"). Keep it clean, direct, human, and sophisticated, focusing on tangible details, light, and space. You must reply ONLY with a valid JSON object. Do not include markdown code block formatting (like \`\`\`json). Just the raw JSON.`,
   });
 
   const prompt = `
@@ -23,8 +23,8 @@ Max Guests: ${rawProperty.maxGuests || 8}
 
 Return EXACTLY this JSON structure:
 {
-  "tagline": "A short, catchy, 3-6 word slogan",
-  "description": "A 3-4 sentence engaging description of the property highlighting coastal luxury, the amenities (beds/baths), and its location.",
+  "tagline": "A short, catchy, 3-6 word slogan (no cliches)",
+  "description": "A 3-4 sentence engaging description of the property highlighting its location, space (${rawProperty.bedrooms || 3} beds, ${rawProperty.bathrooms || 2} baths), and luxury feel. Write naturally like a real human copywriter. Do not be overly dramatic. Be specific and grounded.",
   "price": "Estimate a realistic starting price per night, e.g. '$250'",
   "priceNote": "per night · min 3-night stay",
   "bookingUrl": "#book",

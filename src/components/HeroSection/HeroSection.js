@@ -3,11 +3,11 @@
 import Image from 'next/image';
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import BookingWidget from '../BookingWidget/BookingWidget';
+import Link from 'next/link';
 import FadeIn from '../FadeIn/FadeIn';
 import styles from './HeroSection.module.css';
 
-export default function HeroSection() {
+export default function HeroSection({ content }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
@@ -20,7 +20,7 @@ export default function HeroSection() {
     <section className={styles.hero} ref={ref}>
       <motion.div className={styles.background} style={{ y, scale: 1.1 }}>
         <Image
-          src="/images/hero_coastal_sunset_1781267807355.png"
+          src="/images/main.png"
           alt="Luxury beach house at sunset on 30A"
           fill
           sizes="100vw"
@@ -30,21 +30,21 @@ export default function HeroSection() {
         />
         <div className={styles.overlay}></div>
       </motion.div>
-      
+
       <div className={styles.content}>
         <div className="container">
           <div className={styles.textContent}>
             <FadeIn maskReveal delay={0.1}>
-              <p className={styles.eyebrow}>Where 30A Meets Five-Star</p>
+              <p className={styles.eyebrow}>{content?.eyebrow}</p>
             </FadeIn>
             <FadeIn maskReveal delay={0.3}>
               <h1 className={styles.title}>
-                Coral <span className={styles.ampersand}>&amp;</span> Cove
+                {content?.title} <span className={styles.ampersand}>{content?.ampersand}</span> {content?.title2}
               </h1>
             </FadeIn>
             <FadeIn maskReveal delay={0.5}>
               <p className={styles.subtitle}>
-                Curated Luxury Rentals along Highway 30A
+                {content?.subtitle}
               </p>
             </FadeIn>
             <div className={styles.ratingBadge}>
@@ -57,11 +57,21 @@ export default function HeroSection() {
               </div>
               <span><strong>Rated 5 Stars</strong> by our guests</span>
             </div>
+            <div className={styles.ctaContainer}>
+              <Link href="/book" className={styles.ctaButton}>
+                <span>Check Availability</span>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
 
-      <BookingWidget />
+      <div className={styles.scrollIndicator}>
+        <span>Explore</span>
+        <div className={styles.scrollLineWrapper}>
+          <div className={styles.scrollLine}></div>
+        </div>
+      </div>
     </section>
   );
 }

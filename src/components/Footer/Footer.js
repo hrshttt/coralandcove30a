@@ -21,30 +21,30 @@ export default function Footer() {
           <h4 className={styles.heading}>Explore</h4>
           <ul>
             <li><Link href="/properties">Our Properties</Link></li>
-            <li><Link href="#about">About Us</Link></li>
-            <li><Link href="#experiences">Experiences</Link></li>
-            <li><Link href="#reviews">Guest Reviews</Link></li>
+            <li><Link href="/#about">About Us</Link></li>
+            <li><Link href="/#experiences">Experiences</Link></li>
+            <li><Link href="/#reviews">Guest Reviews</Link></li>
           </ul>
         </div>
 
         <div className={styles.links}>
           <h4 className={styles.heading}>Information</h4>
           <ul>
-            <li><Link href="#">Booking Policies</Link></li>
-            <li><Link href="#">FAQ</Link></li>
-            <li><Link href="#">Owner Services</Link></li>
-            <li><Link href="#">Privacy Policy</Link></li>
+            <li><Link href="/booking-policies">Booking Policies</Link></li>
+            <li><Link href="/faq">FAQ</Link></li>
+            <li><Link href="/owner-services">Owner Services</Link></li>
+            <li><Link href="/privacy-policy">Privacy Policy</Link></li>
           </ul>
         </div>
 
-        <div className={styles.newsletter}>
-          <h4 className={styles.heading}>Join Our List</h4>
-          <p className={styles.newsletterText}>Sign up for exclusive offers and coastal inspiration.</p>
-          <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
-            <input type="email" placeholder="Email Address" className={styles.input} />
-            <button type="submit" className={styles.submitBtn}>Subscribe</button>
-          </form>
+        <div className={styles.links}>
+          <h4 className={styles.heading}>Connect</h4>
+          <ul>
+            <li><a href="https://www.instagram.com/coralandcove30a/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+            <li><a href="https://www.facebook.com/coralandcove30a/" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+          </ul>
         </div>
+
 
       </div>
       
